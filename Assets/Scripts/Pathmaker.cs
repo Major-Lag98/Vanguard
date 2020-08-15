@@ -11,7 +11,7 @@ public class Pathmaker : MonoBehaviour
 
     
 
-    private void OnDrawGizmos()
+    public void OnDrawGizmos()
     {
         if (points.Count < 2)
             return;

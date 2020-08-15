@@ -17,21 +17,16 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         pathmaker = GetComponent<Pathmaker>();
+        TimeTicker.Instance.AddOnTimeTickDelegate(SpawnGoblin, 6);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void SpawnGoblin(int time)
     {
-        if (Spawning)
-        {
-            counter += Time.deltaTime;
-            if(counter > DelayPerSpawn)
-            {
-                var obj = Instantiate(prefab);
-                obj.transform.position = transform.position;
-                obj.GetComponent<Goblin>().SetPoints(pathmaker.points.ToArray());
-                counter -= DelayPerSpawn;
-            }
-        }
+        var obj = Instantiate(prefab);
+        obj.transform.position = transform.position;
+        obj.GetComponent<Goblin>().SetPoints(pathmaker.points.ToArray());
+        counter -= DelayPerSpawn;
     }
+
 }

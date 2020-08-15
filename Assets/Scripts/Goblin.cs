@@ -13,32 +13,24 @@ public class Goblin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine("Move");
+        TimeTicker.Instance.AddOnTimeTickDelegate(Move, 2);
     }
 
-    // Update is called once per frame
-    void Update()
+    void Move(int time)
     {
-        
-    }
+        var target = points[currIter];
+        transform.DOMove(target, 0.5f).SetEase(Ease.OutExpo);
+        currIter++;
 
-    IEnumerator Move()
-    {
-        while (currIter < points.Length)
-        {
-            var target = points[currIter];
-            transform.DOMove(target, 0.5f).SetEase(Ease.OutExpo);
-            currIter++;
-
-            yield return new WaitForSeconds(TimePerMove);
-        }
-
-
-        yield break;
     }
 
     public void SetPoints(Vector3[] points)
     {
         this.points = points;
+    }
+
+    private void OnDestroy()
+    {
+        TimeTicker.Instance.RemoveOnTimeTickDelegate(Move, 2);
     }
 }
