@@ -18,10 +18,14 @@ public class Goblin : MonoBehaviour
 
     void Move(int time)
     {
-        var target = points[currIter];
-        transform.DOMove(target, 0.5f).SetEase(Ease.OutExpo);
-        currIter++;
-
+        if (currIter < points.Length)
+        {
+            var target = points[currIter];
+            transform.DOMove(target, 0.5f).SetEase(Ease.OutExpo);
+            currIter++;
+        }
+        else
+            TimeTicker.Instance.RemoveOnTimeTickDelegate(Move, 2);
     }
 
     public void SetPoints(Vector3[] points)
