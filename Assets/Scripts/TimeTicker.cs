@@ -36,7 +36,9 @@ public class TimeTicker : MonoBehaviour
 
     void CallDelegates(float time, Dictionary<int, OnTimeTickDelegate> map)
     {
-        foreach(int tick in map.Keys) // For each 'tick' in the map
+        List<int> keyList = new List<int>(map.Keys);
+
+        foreach (int tick in keyList) // For each 'tick' in the map
         {
             var t = (int)time;
             if (t % tick == 0) // If it's time to call
