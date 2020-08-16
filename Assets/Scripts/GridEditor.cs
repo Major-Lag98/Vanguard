@@ -27,6 +27,9 @@ public class GridEditor : Editor
 
     public override void OnInspectorGUI()
     {
+
+        DrawDefaultInspector();
+
         //LevelScript myTarget = (LevelScript)target;
 
         //myTarget.experience = EditorGUILayout.IntField("Experience", myTarget.experience);
@@ -51,6 +54,7 @@ public class GridEditor : Editor
         {
             ((Testing)target).GenerateGrid();
         }
+
         //generate grid here
     }
 }
