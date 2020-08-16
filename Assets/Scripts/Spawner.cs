@@ -7,7 +7,7 @@ public class Spawner : MonoBehaviour
 
     public GameObject prefab;
     public bool Spawning;
-    public float DelayPerSpawn = 1f;
+    public int SpawnTickRate = 4;
     public int NumberToSpawn = 10;
 
     private float counter;
@@ -17,7 +17,7 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         pathmaker = GetComponent<Pathmaker>();
-        TimeTicker.Instance.AddOnTimeTickDelegate(SpawnGoblin, 6);
+        TimeTicker.Instance.AddOnTimeTickDelegate(SpawnGoblin, SpawnTickRate);
     }
 
 
@@ -26,7 +26,10 @@ public class Spawner : MonoBehaviour
         var obj = Instantiate(prefab);
         obj.transform.position = transform.position;
         obj.GetComponent<Goblin>().SetPoints(pathmaker.points.ToArray());
-        counter -= DelayPerSpawn;
+        counter++;
+
+        if(counter > NumberToSpawn)
+            TimeTicker.Instance.RemoveOnTimeTickDelegate(SpawnGoblin, SpawnTickRate);
     }
 
 }
