@@ -12,6 +12,11 @@ public class Testing : MonoBehaviour
     [HideInInspector]
     Grid grid;
 
+    
+    [SerializeField]
+    GameObject tower;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +41,30 @@ public class Testing : MonoBehaviour
             Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
         }
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            SpawnTower();
+        }
+
     }
+
+    private void SpawnTower()
+    {
+        Vector3 spawnPosition = UtilsClass.GetMouseWorldPosition();
+        spawnPosition = ValidateWorldGridPosition(spawnPosition);
+        spawnPosition += new Vector3(1, 1, 0) * grid.GetCellSize() * .5f;
+
+        Instantiate(tower, spawnPosition, Quaternion.identity);
+    }
+
+    private Vector3 ValidateWorldGridPosition(Vector3 position)
+    {
+        grid.GetXY(position, out int x, out int y);
+        return grid.GetWorldPosition(x, y);
+    }
+
+
+
 
     public Grid GetGrid() => grid;
 
@@ -50,7 +78,7 @@ public class Testing : MonoBehaviour
             for (int y = 0; y < 22; y++)
             {
                 var value = grid.GetValue(x, y);
-                var woorld = grid.GetworldPosition(x, y) + new Vector3(0.5f, 0.5f);
+                var woorld = grid.GetWorldPosition(x, y) + new Vector3(0.5f, 0.5f);
                 Color color;
 
                 if (value == 0)
