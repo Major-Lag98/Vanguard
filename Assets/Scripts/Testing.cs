@@ -41,7 +41,7 @@ public class Testing : MonoBehaviour
             Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0))
         {
             SpawnTower();
         }

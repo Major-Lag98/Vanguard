@@ -56,7 +56,7 @@ public class Grid : ScriptableObject
 
     public void GetXY(Vector3 worldPosition, out int x, out int y)
     {
-        x = Mathf.FloorToInt((worldPosition - _originPosition).x/ _cellSize);
+        x = Mathf.FloorToInt((worldPosition - _originPosition).x / _cellSize);
         y = Mathf.FloorToInt((worldPosition - _originPosition).y / _cellSize);
     }
 
