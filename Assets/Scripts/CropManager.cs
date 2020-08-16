@@ -7,16 +7,20 @@ public class CropManager : MonoBehaviour
 
     public static CropManager Instance;
 
-
     private List<Crop> cropList = new List<Crop>();
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         if (Instance != null)
             throw new System.Exception("There should only ever be one CropManager");
 
         Instance = this;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -25,18 +29,21 @@ public class CropManager : MonoBehaviour
         
     }
 
-    public void AddCrop()
+    public void AddCrop(Crop crop)
     {
-
+        cropList.Add(crop);
     }
 
-    public void RemoveCrop()
+    public void RemoveCrop(Crop crop)
     {
-
+        cropList.Remove(crop);
     }
 
-    public void DestroyCrop()
+    public void DestroyCrop(Crop crop)
     {
-
+        cropList.Remove(crop);
+        Destroy(crop.gameObject);
     }
+
+    public List<Crop> GetCropList() => cropList;
 }

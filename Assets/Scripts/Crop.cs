@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
 public class Crop : MonoBehaviour
 {
 
@@ -10,6 +11,7 @@ public class Crop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        CropManager.Instance.AddCrop(this);
     }
 
     public void SetReserved(bool value)
