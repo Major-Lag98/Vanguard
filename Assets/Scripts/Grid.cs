@@ -3,13 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid
+[System.Serializable]
+public class Grid : ScriptableObject
 {
     int _width;
+
     int _height;
+
     float _cellSize;
+
     Vector3 _originPosition;
+
     int[,] gridArray;
+
     TextMesh[,] debugTextArray;
 
 
@@ -35,11 +41,10 @@ public class Grid
         Debug.DrawLine(GetworldPosition(0, height), GetworldPosition(width,height), Color.red, 100f);
         Debug.DrawLine(GetworldPosition(width, 0), GetworldPosition(width, height), Color.red, 100f);
 
-
         SetValue(2, 1, 56);
     }
 
-    Vector3 GetworldPosition(int x, int y)
+    public Vector3 GetworldPosition(int x, int y)
     {
         return new Vector3(x, y) * _cellSize + _originPosition;
     }
