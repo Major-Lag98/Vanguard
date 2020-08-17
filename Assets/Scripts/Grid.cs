@@ -50,10 +50,9 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
         Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width,height), Color.red, 100f);
         Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.red, 100f);
 
-            // Then deserialize the flat grid into the new grid
-            LoadGrid(flatGrid);
-            flatGrid = new int[0];
-        }
+        // Then deserialize the flat grid into the new grid
+        LoadGrid(flatGrid);
+        flatGrid = new int[0];
     }
 
     public float GetCellSize()
