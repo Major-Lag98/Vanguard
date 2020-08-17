@@ -10,11 +10,21 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class TextWriter : MonoBehaviour
 {
+    // Define delegates for when we start and stop
+    public delegate void OnTextWriterStartDelegate();
+    public delegate void OnTextWriterStopDelegate();
+
+    // These can be plugged into for events
+    private OnTextWriterStartDelegate OnTextWriterStart;
+    private OnTextWriterStopDelegate OnTextWriterStop;
+
     public float StartDelay;
+
     [Tooltip("Uses an invisible color to write in the rest of the characters, allowing the text to not shift around while writing")]
     public bool InvisibleCharacterPadding = true;
 
-    [SerializeField] private float timePerCharacter = 0.1f;
+    [SerializeField] 
+    private float timePerCharacter = 0.1f;
 
     private TextMeshProUGUI textMesh; // Our text mesh
 
@@ -28,8 +38,8 @@ public class TextWriter : MonoBehaviour
 
         text = textMesh.text; // cache our text
         textMesh.text = ""; // Clear the text content of the object
+        StartWriting(StartDelay);
 
-            StartWriting(StartDelay);
     }
 
     /// <summary>
@@ -52,6 +62,8 @@ public class TextWriter : MonoBehaviour
     {
         yield return new WaitForSeconds(startDelay);
 
+        OnTextWriterStart?.Invoke(); // Call our start delegate
+
         var size = text.Length;
         while (currIndex < size)
         {
@@ -67,6 +79,9 @@ public class TextWriter : MonoBehaviour
             currIndex++; //Increment
             yield return new WaitForSeconds(timePerCharacter); // Wait for our desired time
         }
+
+        OnTextWriterStop?.Invoke(); // Call our stop delegate
+
         yield break;
     }
     
@@ -92,5 +107,18 @@ public class TextWriter : MonoBehaviour
 
         return text;
     }
+
+    public void AddOnTextWriterStartDelegate(OnTextWriterStartDelegate del)
+        => OnTextWriterStart += del;
+
+    public void AddOnTextWriterStopDelegate(OnTextWriterStopDelegate del)
+        => OnTextWriterStop += del;
+
+    public void RemoveOnTextWriterStartDelegate(OnTextWriterStartDelegate del)
+        => OnTextWriterStart -= del;
+
+    public void RemoveOnTextWriterStopDelegate(OnTextWriterStopDelegate del)
+        => OnTextWriterStop -= del;
+
 
 }
