@@ -27,7 +27,7 @@ public class EnemyManager : MonoBehaviour
             {
                 if(dist < lastDist) // If the dist to the enemy is closer than the last distance
                 {
-                    closest = enemy; // assign our enemy
+                    closest = enemy; // assign our new closest enemy
                     lastDist = dist; // cache our last distance to the current
                 }
             }
