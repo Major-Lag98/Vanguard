@@ -13,6 +13,8 @@ public class TimeTicker : MonoBehaviour
 
     public static TimeTicker Instance;
 
+    private float counter;
+
     private void Awake()
     {
         Instance = this;
@@ -27,10 +29,12 @@ public class TimeTicker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Time.time - lastTime >= 1) // Every second that passes
+        counter += Time.deltaTime;
+        if(counter >= 1) // Every second that passes
         {
             lastTime = Time.time; // Set last time to the current time
             CallDelegates(Time.time, delegateMap); // Call our delegates
+            counter -= 1;
         }
     }
 
