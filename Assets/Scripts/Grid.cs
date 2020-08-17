@@ -40,7 +40,15 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (gridArray == null)
         {
-            Generate(_width, _height, _cellSize, _originPosition);
+            for (int y = 0; y < gridArray.GetLength(1); y++)
+            {
+                //debugTextArray[x, y] = UtilsClass.CreateWorldText(gridArray[x, y].ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * .5f, 5, Color.white, TextAnchor.MiddleCenter);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.red, 100f);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.red, 100f);
+            }
+        }
+        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width,height), Color.red, 100f);
+        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.red, 100f);
 
             // Then deserialize the flat grid into the new grid
             LoadGrid(flatGrid);
@@ -69,6 +77,7 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
         if(x >= 0 && y >= 0 && x < _width && y < _height)
         {
             gridArray[x, y] = value;
+            //debugTextArray[x, y].text = gridArray[x, y].ToString();
         }
         
     }
