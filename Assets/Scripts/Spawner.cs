@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField]
-    EnemyManager enemyManager;
-
     public GameObject prefab;
     public bool Spawning;
     public int SpawnTickRate = 4;
@@ -31,7 +28,7 @@ public class Spawner : MonoBehaviour
         counter++;
 
         
-        enemyManager.goblinList.Add(obj);
+        EnemyManager.Instance.goblinList.Add(obj);
 
         if(counter > NumberToSpawn)
             TimeTicker.Instance.RemoveOnTimeTickDelegate(SpawnGoblin, SpawnTickRate);

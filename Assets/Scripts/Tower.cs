@@ -5,8 +5,6 @@ using CodeMonkey.Utils;
 
 public class Tower : MonoBehaviour
 {
-    [SerializeField]
-    EnemyManager enemyManager;
 
     [SerializeField]
     GameObject Arrow;
@@ -16,7 +14,6 @@ public class Tower : MonoBehaviour
 
     private void Start()
     {
-        enemyManager = FindObjectOfType<EnemyManager>();
     }
 
     // Update is called once per frame
@@ -31,33 +28,15 @@ public class Tower : MonoBehaviour
 
     public void Fire()
     {
-        GameObject projectile = Instantiate(Arrow, transform.position, Quaternion.identity);
-        projectile.GetComponent<Arrow>().targetPosition = GetClossestEnemy().transform.position;
         
-    }
+        var enemy = EnemyManager.Instance.GetClosestEnemy(transform.position, range);
 
-    GameObject GetClossestEnemy()
-    {
-        GameObject Closest = null;
-        foreach (GameObject enemy in enemyManager.goblinList)
-        {
-            
-            if (Vector3.Distance(transform.position, enemy.transform.position) <= range) //range check
-            {
-                if (Closest == null)
-                {
-                    Closest = enemy;
-                }
-                else
-                {
-                    if (Vector3.Distance(transform.position, enemy.transform.position) < Vector3.Distance(transform.position, Closest.transform.position)) //check if anyone else is closer
-                    {
-                        Closest = enemy;
-                    }
-                }
-            }
-        }
-        return Closest;
+        if (!enemy)
+            return;
+
+         GameObject projectile = Instantiate(Arrow, transform.position, Quaternion.identity);
+        var arrow = projectile.GetComponent<Arrow>();
+        arrow.targetPosition = enemy.transform.position;
     }
 
 }
