@@ -57,7 +57,8 @@ public class Goblin : MonoBehaviour
     {
         MoveFreeTowardsTarget(targetCrop.transform.position);
 
-        if (Vector3.Distance(targetCrop.transform.position, transform.position) < 0.2f)
+        if(Vector2.Distance(new Vector2(transform.position.x, transform.position.y), 
+            new Vector2(targetCrop.transform.position.x, targetCrop.transform.position.y)) < 0.2f)
         {
             TimeTicker.Instance.RemoveOnTimeTickDelegate(MoveToPlant, MoveTickSpeed);
             TimeTicker.Instance.AddOnTimeTickDelegate(MoveOffScreen, MoveTickSpeed);
@@ -103,9 +104,7 @@ public class Goblin : MonoBehaviour
 
     float StepTowards(float coord, int dir)
     {
-        var mult = (int)coord <= 0 ? -1 : 1;
-        float c = (int)(coord + 1 * dir) + 0.5f * mult;
-        return c;
+        return Mathf.Round((coord + 1 * dir)*2) * 0.5f;
     }
 
     private void Move(Vector3 targetPostion)

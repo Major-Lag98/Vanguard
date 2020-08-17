@@ -1020,7 +1020,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8236485
+  m_Intensity: 0.7956854
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -1273,7 +1273,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.7028641
+  m_Intensity: 0.74591357
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -1474,7 +1474,7 @@ GameObject:
   - component: {fileID: 444184570}
   - component: {fileID: 444184569}
   m_Layer: 0
-  m_Name: colored_6 (2)
+  m_Name: crop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2094,7 +2094,7 @@ GameObject:
   - component: {fileID: 691621450}
   - component: {fileID: 691621449}
   m_Layer: 0
-  m_Name: colored_6 (3)
+  m_Name: crop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2316,7 +2316,7 @@ GameObject:
   - component: {fileID: 723085196}
   - component: {fileID: 723085195}
   m_Layer: 0
-  m_Name: colored_6 (7)
+  m_Name: crop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2903,7 +2903,7 @@ GameObject:
   - component: {fileID: 927645757}
   - component: {fileID: 927645756}
   m_Layer: 0
-  m_Name: colored_6 (6)
+  m_Name: crop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2998,7 +2998,7 @@ GameObject:
   - component: {fileID: 983591553}
   - component: {fileID: 983591552}
   m_Layer: 0
-  m_Name: colored_6 (5)
+  m_Name: crop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3897,7 +3897,7 @@ GameObject:
   - component: {fileID: 1398878592}
   - component: {fileID: 1398878591}
   m_Layer: 0
-  m_Name: colored_6 (8)
+  m_Name: crop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4095,7 +4095,7 @@ MonoBehaviour:
   prefab: {fileID: 5728206948978351524, guid: eb318248dba17864a972331cefc5bbe6, type: 3}
   Spawning: 1
   SpawnTickRate: 4
-  NumberToSpawn: 10
+  NumberToSpawn: 0
 --- !u!4 &1459669220
 Transform:
   m_ObjectHideFlags: 0
@@ -4418,7 +4418,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8324676
+  m_Intensity: 0.8072628
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -4719,7 +4719,7 @@ GameObject:
   - component: {fileID: 1639668552}
   - component: {fileID: 1639668551}
   m_Layer: 0
-  m_Name: colored_6 (4)
+  m_Name: crop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4852,7 +4852,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.7820571
+  m_Intensity: 0.7284997
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -9582,7 +9582,7 @@ GameObject:
   - component: {fileID: 1887864863}
   - component: {fileID: 1887864862}
   m_Layer: 0
-  m_Name: colored_6 (1)
+  m_Name: crop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9596,7 +9596,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887864860}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.47, y: 1.49, z: -1}
+  m_LocalPosition: {x: -6.47, y: 1.61, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1265795659}
@@ -9906,7 +9906,7 @@ GameObject:
   - component: {fileID: 2030517804}
   - component: {fileID: 2030517805}
   m_Layer: 0
-  m_Name: colored_6
+  m_Name: crop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9920,7 +9920,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2030517802}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.5, y: 1.49, z: -1}
+  m_LocalPosition: {x: -5.5, y: 1.65, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1265795659}
