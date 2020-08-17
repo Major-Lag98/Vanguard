@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Testing))]
+[CustomEditor(typeof(Grid))]
 public class GridEditor : Editor
 {
     private int currPlacingType;
 
     private void OnSceneGUI()
     {
-        if (target is Testing gridHolder) // Pattern match
+        if (target is Grid grid) // Pattern match
         {
             if (Event.current.type == EventType.MouseDrag && Event.current.button == 0) // If we're dragging the left mouse button
             {
@@ -18,7 +18,8 @@ public class GridEditor : Editor
                 var x = p.x > 0 ? ((int)p.x) + 0.5f : ((int)p.x) - 0.5f; // Adjust
                 var y = p.y > 0 ? ((int)p.y) + 0.5f : ((int)p.y) - 0.5f; // Adjust
 
-                gridHolder.GetGrid().SetValue(new Vector3(x, y), currPlacingType); // Set the type on the grid
+                grid.SetValue(new Vector3(x, y), currPlacingType); // Set the type on the grid
+                SceneView.RepaintAll();
             }
         }
 
@@ -52,7 +53,8 @@ public class GridEditor : Editor
 
         if (GUILayout.Button("Generate"))
         {
-            ((Testing)target).GenerateGrid();
+            ((Grid)target).GenerateGrid();
+            EditorUtility.SetDirty((Grid)target);
         }
 
         //generate grid here
