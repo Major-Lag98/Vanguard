@@ -1,0 +1,4 @@
+Hey there! This is text for our new game!
+I am testing out using a text file for content.
+And maybe it works well enough to use.
+Hopefully it does after all this work.

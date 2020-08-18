@@ -11,43 +11,60 @@ using UnityEngine.UI;
 public class TextWriter : MonoBehaviour
 {
     // Define delegates for when we start and stop
-    public delegate void OnTextWriterStartDelegate();
-    public delegate void OnTextWriterStopDelegate();
+    public delegate void OnTextWriterEventDelegate();
 
     // These can be plugged into for events
-    private OnTextWriterStartDelegate OnTextWriterStart;
-    private OnTextWriterStopDelegate OnTextWriterStop;
+    private OnTextWriterEventDelegate OnTextWriterStart;
+    private OnTextWriterEventDelegate OnTextWriterStop;
+    private OnTextWriterEventDelegate OnTextWriterRestart;
 
     public float StartDelay;
 
     [Tooltip("Uses an invisible color to write in the rest of the characters, allowing the text to not shift around while writing")]
     public bool InvisibleCharacterPadding = true;
 
-    [SerializeField] 
+    public bool AutoStartWriting = true;
+
     private float timePerCharacter = 0.1f;
+
+    [SerializeField]
+    private float TotalWriteTime = 1f;
 
     private TextMeshProUGUI textMesh; // Our text mesh
 
-    private string text; // Our cached text
+    private string originalText; // Our cached text
     private int currIndex;
+    private bool working;
 
     // Start is called before the first frame update
     void Start()
     {
         textMesh = GetComponentInChildren<TextMeshProUGUI>();
 
-        text = textMesh.text; // cache our text
+        originalText = textMesh.text; // cache our text
         textMesh.text = ""; // Clear the text content of the object
-        StartWriting(StartDelay);
 
+        if(AutoStartWriting)
+            StartWriting();
+    }
+
+    public void Restart()
+    {
+        OnTextWriterRestart?.Invoke(); // Call our delegate event
+        Skip(); // Skip anything we're still writing
+        textMesh.text = ""; // Clear the text content of the object
+        currIndex = 0; // Reset the index
+
+        if (AutoStartWriting)
+            StartWriting();
     }
 
     /// <summary>
     /// Called to start our text effect object
     /// </summary>
-    public void StartWriting(float startDelay)
+    public void StartWriting()
     {
-        StartCoroutine(WriteText(startDelay));
+        StartCoroutine(WriteText(StartDelay));
     }
 
     private int SkipTokens(string text, int start)
@@ -60,16 +77,18 @@ public class TextWriter : MonoBehaviour
 
     private IEnumerator WriteText(float startDelay)
     {
-        yield return new WaitForSeconds(startDelay);
+        yield return new WaitForSecondsRealtime(startDelay);
 
+        timePerCharacter = TotalWriteTime / originalText.Length;
         OnTextWriterStart?.Invoke(); // Call our start delegate
+        working = true; // Change our working state to true;
 
-        var size = text.Length;
+        var size = originalText.Length;
         while (currIndex < size)
         {
-            currIndex = SkipTokens(text, currIndex); // Skip tokens like <color></color>
-            var newText = text.Substring(0, currIndex+1); // Get the text we need to display
-            var rest = text.Substring(currIndex + 1);
+            currIndex = SkipTokens(originalText, currIndex); // Skip tokens like <color></color>
+            var newText = originalText.Substring(0, currIndex+1); // Get the text we need to display
+            var rest = originalText.Substring(currIndex + 1);
             if (InvisibleCharacterPadding)
             {
                 var tokenlessText = RemoveAllTokens(rest); // Removes (temporarily) any future color tokens
@@ -81,9 +100,34 @@ public class TextWriter : MonoBehaviour
         }
 
         OnTextWriterStop?.Invoke(); // Call our stop delegate
+        working = false; // set our working state to false
 
         yield break;
     }
+
+    /// <summary>
+    /// Skips the text writing and fills the text immediately
+    /// </summary>
+    public void Skip()
+    {
+        if (working)
+        {
+            currIndex = originalText.Length - 1;
+        }
+    }
+
+    /// <summary>
+    /// Sets the text to write. Originally the text is pulled from the TextMeshPro instance.
+    /// This will call Restart() on the writer to pause it and overwrite the cached text.
+    /// </summary>
+    /// <param name="text"></param>
+    public void SetTextToWrite(string text)
+    {
+        Restart();
+        originalText = text;
+    }
+
+    public bool IsWorking() => working;
     
     /// <summary>
     /// Removes tokens from the passed in text and returns text without tokens. Tokens are text between and including '<' and '>'.
@@ -108,17 +152,25 @@ public class TextWriter : MonoBehaviour
         return text;
     }
 
-    public void AddOnTextWriterStartDelegate(OnTextWriterStartDelegate del)
+    public void AddOnTextWriterStartDelegate(OnTextWriterEventDelegate del)
         => OnTextWriterStart += del;
 
-    public void AddOnTextWriterStopDelegate(OnTextWriterStopDelegate del)
+    public void AddOnTextWriterStopDelegate(OnTextWriterEventDelegate del)
         => OnTextWriterStop += del;
 
-    public void RemoveOnTextWriterStartDelegate(OnTextWriterStartDelegate del)
+    public void RemoveOnTextWriterStartDelegate(OnTextWriterEventDelegate del)
         => OnTextWriterStart -= del;
 
-    public void RemoveOnTextWriterStopDelegate(OnTextWriterStopDelegate del)
+    public void RemoveOnTextWriterStopDelegate(OnTextWriterEventDelegate del)
         => OnTextWriterStop -= del;
+
+    public void AddOnTextWriterRestartDelegate(OnTextWriterEventDelegate del)
+        => OnTextWriterRestart += del;
+
+    public void RemoveOnTextWriterRestartDelegate(OnTextWriterEventDelegate del)
+        => OnTextWriterRestart -= del;
+
+
 
 
 }
