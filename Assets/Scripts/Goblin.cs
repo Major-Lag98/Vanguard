@@ -76,6 +76,7 @@ public class Goblin : MonoBehaviour
         if (Vector3.Distance(end, transform.position) < 0.2f)
         {
             TimeTicker.Instance.RemoveOnTimeTickDelegate(MoveOffScreen, MoveTickSpeed);
+            EnemyManager.Instance.goblinList.Remove(this.gameObject);
             Destroy(gameObject);
         }
     }
