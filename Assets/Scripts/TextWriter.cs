@@ -96,7 +96,7 @@ public class TextWriter : MonoBehaviour
             }
             textMesh.text = newText; // Set it
             currIndex++; //Increment
-            yield return new WaitForSeconds(timePerCharacter); // Wait for our desired time
+            yield return new WaitForSecondsRealtime(timePerCharacter); // Wait for our desired time
         }
 
         OnTextWriterStop?.Invoke(); // Call our stop delegate
