@@ -67,4 +67,7 @@ public class TimeTicker : MonoBehaviour
         if (delegateMap.ContainsKey(tick))
             delegateMap[tick] -= del;
     }
+
+    public void SetTimeScale(int scale)
+        => Time.timeScale = scale;
 }
