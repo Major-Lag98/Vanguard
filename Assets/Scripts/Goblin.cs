@@ -69,7 +69,7 @@ public class Goblin : MonoBehaviour
 
     void MoveOffScreen(int time)
     {
-        var end = new Vector3(-11.5f, transform.position.y);
+        var end = new Vector3(-22.5f, transform.position.y);
         MoveFreeTowardsTarget(end);
 
         // If we're at the end

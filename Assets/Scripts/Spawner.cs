@@ -32,10 +32,7 @@ public class Spawner : MonoBehaviour
         if (!Spawning)
             return;
 
-        
-
-        var obj = Instantiate(prefab);
-        obj.transform.position = pathmaker.points[0];
+        var obj = Instantiate(prefab, pathmaker.points[0]);
         obj.GetComponent<Goblin>().SetPoints(pathmaker.points.GetRange(1, pathmaker.points.Count-1).ToArray());
         counter++;
 

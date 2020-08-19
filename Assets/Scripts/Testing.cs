@@ -14,6 +14,8 @@ public class Testing : MonoBehaviour
     [SerializeField]
     GameObject tower;
 
+    GameObject currPlacing;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,30 +25,36 @@ public class Testing : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && IsPlacing())
         {
-            grid.SetValue(UtilsClass.GetMouseWorldPosition(), 10);
+            SpawnTower(currPlacing);
         }
-
-        if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
+            SetPlacing(null);
         }
-
-        if (Input.GetMouseButtonDown(0))
+        else if (Input.GetKeyDown(KeyCode.B))
         {
-            SpawnTower();
+            SetPlacing(tower);
         }
 
     }
 
-    private void SpawnTower()
+    public void SetPlacing(GameObject obj)
+    {
+        currPlacing = obj;
+    }
+
+    public bool IsPlacing() => currPlacing != null;
+
+
+    private void SpawnTower(GameObject obj)
     {
         Vector3 spawnPosition = UtilsClass.GetMouseWorldPosition();
         spawnPosition = ValidateWorldGridPosition(spawnPosition);
         spawnPosition += new Vector3(1, 1, 0) * grid.GetCellSize() * .5f;
 
-        Instantiate(tower, spawnPosition, Quaternion.identity);
+        Instantiate(obj, spawnPosition, Quaternion.identity);
     }
 
     private Vector3 ValidateWorldGridPosition(Vector3 position)
