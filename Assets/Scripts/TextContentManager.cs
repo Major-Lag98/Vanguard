@@ -11,6 +11,8 @@ public class TextContentManager : MonoBehaviour
     public TextWriter writer;
     public GameObject DisableOnComplete;
 
+    public List<GameObject> EnableOnComplete;
+
     private string[] text;
     private int textIter;
 
@@ -48,6 +50,7 @@ public class TextContentManager : MonoBehaviour
                     TimeTicker.Instance.SetTimeScale(1); // Set to regular time scale
                     DisableOnComplete.SetActive(false);
                     GameStateManager.Instance.SetDay();
+                    EnableOnComplete.ForEach(obj => obj.SetActive(true));
                 }
             }
         }
