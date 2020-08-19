@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class GameStateManager : MonoBehaviour
 {
+    public delegate void GameStateChangedDelegate(State state);
+
     public Light2D GlobalLight;
     public Spawner Spawner;
     public float Timer; // Used for time of day cycle (buying, planting, placing towers) and night (time between attacks)
@@ -20,8 +22,10 @@ public class GameStateManager : MonoBehaviour
     [Tooltip("The time for the player to buy and place stuff during the peaceful day time")]
     public float TimeForDayCycle = 180;
 
-    enum State { Day, Night, Attacking};
+    public enum State { Day, Night, Attacking};
     State currState = State.Day;
+
+    GameStateChangedDelegate gameStateChanged;
 
     public static GameStateManager Instance;
 
@@ -73,6 +77,7 @@ public class GameStateManager : MonoBehaviour
             ActivateTimerText((int)Timer); // Activate the timer text
             SkipCycleButton.gameObject.SetActive(true); // Activate the skip button
             currState = State.Night;
+            gameStateChanged?.Invoke(currState);
         }
         // If the wave was not loaded (no more spawns), we can transition to day instead
         else
@@ -89,6 +94,7 @@ public class GameStateManager : MonoBehaviour
         TimerText.gameObject.SetActive(false); // Hide the timer text
         SkipCycleButton.gameObject.SetActive(false); // Hide the skip button
         currState = State.Attacking;
+        gameStateChanged?.Invoke(currState);
     }
 
     void ToDay()
@@ -97,6 +103,7 @@ public class GameStateManager : MonoBehaviour
         TimerText.text = FormatTimeText((int)Timer);
         SkipCycleButton.gameObject.SetActive(true);
         currState = State.Day;
+        gameStateChanged?.Invoke(currState);
     }
 
     public void SetDay()
@@ -131,4 +138,10 @@ public class GameStateManager : MonoBehaviour
         var seconds = time % 60;
         return $"{minutes}:{seconds}";
     }
+
+    public void AddGameStateChangedDelegate(GameStateChangedDelegate del)
+        => gameStateChanged += del;
+
+    public void RemoveGameStateChangedDelegate(GameStateChangedDelegate del)
+        => gameStateChanged -= del;
 }
