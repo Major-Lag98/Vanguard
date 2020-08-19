@@ -7,7 +7,6 @@ using UnityEngine.UI;
 /// <summary>
 /// Apply directly onto a Text UI object to apply typewriter effect
 /// </summary>
-[DisallowMultipleComponent]
 public class TextWriter : MonoBehaviour
 {
     // Define delegates for when we start and stop
@@ -17,6 +16,9 @@ public class TextWriter : MonoBehaviour
     private OnTextWriterEventDelegate OnTextWriterStart;
     private OnTextWriterEventDelegate OnTextWriterStop;
     private OnTextWriterEventDelegate OnTextWriterRestart;
+
+    [Tooltip("Assign to have the TextWriter operate on a specific object. If left null, the TextMeshPro will be pulled from the current object")]
+    public TextMeshProUGUI TextMeshProTarget; // Our text mesh
 
     public float StartDelay;
 
@@ -30,7 +32,6 @@ public class TextWriter : MonoBehaviour
     [SerializeField]
     private float TotalWriteTime = 1f;
 
-    private TextMeshProUGUI textMesh; // Our text mesh
 
     private string originalText; // Our cached text
     private int currIndex;
@@ -39,10 +40,11 @@ public class TextWriter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        textMesh = GetComponentInChildren<TextMeshProUGUI>();
+        if(!TextMeshProTarget)
+            TextMeshProTarget = GetComponentInChildren<TextMeshProUGUI>();
 
-        originalText = textMesh.text; // cache our text
-        textMesh.text = ""; // Clear the text content of the object
+        originalText = TextMeshProTarget.text; // cache our text
+        TextMeshProTarget.text = ""; // Clear the text content of the object
 
         if(AutoStartWriting)
             StartWriting();
@@ -52,7 +54,7 @@ public class TextWriter : MonoBehaviour
     {
         OnTextWriterRestart?.Invoke(); // Call our delegate event
         Skip(); // Skip anything we're still writing
-        textMesh.text = ""; // Clear the text content of the object
+        TextMeshProTarget.text = ""; // Clear the text content of the object
         currIndex = 0; // Reset the index
 
         if (AutoStartWriting)
@@ -94,7 +96,7 @@ public class TextWriter : MonoBehaviour
                 var tokenlessText = RemoveAllTokens(rest); // Removes (temporarily) any future color tokens
                 newText += "<color=#00000000>" + tokenlessText + "</color>"; // Hide the rest of the characters with an invisible character
             }
-            textMesh.text = newText; // Set it
+            TextMeshProTarget.text = newText; // Set it
             currIndex++; //Increment
             yield return new WaitForSecondsRealtime(timePerCharacter); // Wait for our desired time
         }

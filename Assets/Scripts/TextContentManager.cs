@@ -6,11 +6,14 @@ using UnityEngine;
 
 public class TextContentManager : MonoBehaviour
 {
+    [Tooltip("The text file to use for the TextWriter")]
     public TextAsset textFile;
+    [Tooltip("The target TextMeshPro to provide lines for")]
     public TextMeshProUGUI textMeshPro;
+    [Tooltip("The target TextWriter to feed lines to")]
     public TextWriter writer;
-    public GameObject DisableOnComplete;
 
+    public GameObject DisableOnComplete;
     public List<GameObject> EnableOnComplete;
 
     private string[] text;
@@ -42,18 +45,17 @@ public class TextContentManager : MonoBehaviour
                 if (textIter < text.Length) // If we're within our bounds still, then write!
                 {
                     writer.SetTextToWrite(text[textIter]); // Set the next line to write
-                    //if(!writer.AutoStartWriting) // Start writing if the writer isn't set to auto
-                        //writer.StartWriting();
+                    if (writer.AutoStartWriting) // Start writing if the writer is set to auto
+                        writer.StartWriting();
                 }
                 else                        // Otherwise we should close this UI
                 {
                     TimeTicker.Instance.SetTimeScale(1); // Set to regular time scale
-                    DisableOnComplete.SetActive(false);
+                    DisableOnComplete.GetComponent<IHideableUI>()?.Hide();
                     GameStateManager.Instance.SetDay();
-                    EnableOnComplete.ForEach(obj => obj.SetActive(true));
+                    EnableOnComplete.ForEach(obj => obj.GetComponent<IHideableUI>()?.Show());
                 }
             }
         }
     }
-
 }

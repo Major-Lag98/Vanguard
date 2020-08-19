@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HideAndShowUIElement : MonoBehaviour
+public class HideAndShowUIElement : MonoBehaviour, IHideableUI
 {
     public bool ShowDuringDay;
     public bool ShowDuringNight;
@@ -56,7 +56,7 @@ public class HideAndShowUIElement : MonoBehaviour
 
     }
 
-    void Show()
+    public void Show()
     {
         // If instant, just set active
         if (InstantShow)
@@ -70,7 +70,7 @@ public class HideAndShowUIElement : MonoBehaviour
         hiding = false;
     }
 
-    void Hide()
+    public void Hide()
     {
         // If instance, just disable
         if (InstantHide)
@@ -82,5 +82,10 @@ public class HideAndShowUIElement : MonoBehaviour
         }
 
         hiding = true;
+    }
+
+    public void Toggle()
+    {
+
     }
 }
