@@ -29,12 +29,15 @@ public class GameStateManager : MonoBehaviour
 
     public static GameStateManager Instance;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         if (Instance == null)
             Instance = this;
+    }
 
+    // Start is called before the first frame update
+    void Start()
+    {
         ToDay();
     }
 
@@ -122,7 +125,7 @@ public class GameStateManager : MonoBehaviour
     {
         if (currState == State.Day)
             SetNight();
-        if (currState == State.Night)
+        else if (currState == State.Night)
             ToAttacking();
     }
 
