@@ -113,16 +113,19 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
 
         gridArray = new int[width, height];
 
+        var color = Color.red;
+        color.a = 0.2f;
+
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
             {
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.red, 100f);
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.red, 100f);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), color, 100f);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), color, 100f);
             }
         }
-        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.red, 100f);
-        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.red, 100f);
+        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), color, 100f);
+        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), color, 100f);
 
         SetValue(2, 1, 56);
     }
