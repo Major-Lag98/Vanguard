@@ -10,7 +10,7 @@ public class Tower : MonoBehaviour
     GameObject Arrow;
 
     [SerializeField]
-    float range = 1;
+    float range = 5;
 
     private void Start()
     {
