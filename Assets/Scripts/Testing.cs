@@ -23,11 +23,31 @@ public class Testing : MonoBehaviour
         //grid = new Grid(29, 22, 1, new Vector3(-24, -11));
     }
 
+
+    /*
+     * GridValues:
+     * == 0, nothing there and can place
+     * == 1, somthings already there
+     * == 3, blocked cannot place
+     */
+
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && IsPlacing())
+        if (Input.GetMouseButtonDown(0) && IsPlacing()) //left click to place
         {
-            SpawnTower(currPlacing);
+            Vector3 mousePos = UtilsClass.GetMouseWorldPosition();
+            int thisGridValue = grid.GetValue(mousePos);
+
+            if (thisGridValue == 3 || thisGridValue == 1) //blocked or somthing is already there
+            {
+                return;
+            }
+            if (thisGridValue == 0)
+            {
+                grid.SetValue(mousePos, 1);
+                SpawnTower(currPlacing);
+            }
+            
         }
         else if (Input.GetMouseButtonDown(1))
         {
@@ -36,6 +56,10 @@ public class Testing : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.B))
         {
             SetPlacing(tower);
+        }
+        else if (Input.GetKeyDown(KeyCode.P)) // press P to get value DEBUG
+        {
+            Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
         }
 
     }
