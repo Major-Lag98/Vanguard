@@ -26,7 +26,7 @@ public class TalkingFace : MonoBehaviour
     {
         if (working)
         {
-            counter += Time.deltaTime;
+            counter += Time.unscaledDeltaTime;
             if(counter >= BounceSpeed) // If we need to bounce
             {
                 counter -= BounceSpeed;
