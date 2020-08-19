@@ -41,7 +41,7 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (gridArray == null)
         {
-            Generate(29, 22, 1, new Vector3(-24, -11));
+            Generate(_width, _height, _cellSize, _originPosition);
             // Then deserialize the flat grid into the new grid
             LoadGrid(flatGrid);
             flatGrid = new int[0];
@@ -102,7 +102,7 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
 
     public void GenerateGrid()
     {
-        Generate(29, 22, 1, new Vector3(-24, -11));
+        Generate(_width, _height, _cellSize, _originPosition);
     }
 
     void Generate(int width, int height, float cellSize, Vector3 originPosition)
@@ -113,22 +113,6 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
         this._originPosition = originPosition;
 
         gridArray = new int[width, height];
-
-        var color = Color.red;
-        color.a = 0.2f;
-
-        for (int x = 0; x < gridArray.GetLength(0); x++)
-        {
-            for (int y = 0; y < gridArray.GetLength(1); y++)
-            {
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), color, 100f);
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), color, 100f);
-            }
-        }
-        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), color, 100f);
-        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), color, 100f);
-
-        SetValue(2, 1, 56);
     }
 
     private void OnDrawGizmos()
@@ -136,9 +120,9 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
         if (gridArray == null)
             return;
 
-        for (int x = 0; x < 29; x++)
+        for (int x = 0; x < _width; x++)
         {
-            for (int y = 0; y < 22; y++)
+            for (int y = 0; y < _height; y++)
             {
                 var value = GetValue(x, y);
                 var woorld = GetWorldPosition(x, y) + new Vector3(0.5f, 0.5f);
@@ -165,9 +149,9 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
     {
         var width = gridArray.GetLength(0);
         var flatArray = new int[width * gridArray.GetLength(1)];
-        for (int x = 0; x < 29; x++)
+        for (int x = 0; x < _width; x++)
         {
-            for (int y = 0; y < 22; y++)
+            for (int y = 0; y < _height; y++)
             {
                 flatArray[x + y * width] = GetValue(x, y);
 
@@ -180,9 +164,9 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
     private void LoadGrid(int[] flatArray)
     {
         var width = gridArray.GetLength(0);
-        for (int x = 0; x < 29; x++)
+        for (int x = 0; x < _width; x++)
         {
-            for (int y = 0; y < 22; y++)
+            for (int y = 0; y < _height; y++)
             {
                 gridArray[x, y] = flatArray[x + y * width];
 
