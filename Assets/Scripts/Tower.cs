@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
 
-public class Tower : MonoBehaviour
+public class Tower : MonoBehaviour, IPlaceable
 {
 
     [SerializeField]
@@ -21,7 +21,6 @@ public class Tower : MonoBehaviour
     {
         TimeTicker.Instance.AddOnTimeTickDelegate(Fire, 1);
     }
-
 
     public void Fire(int time)
     {
@@ -43,4 +42,13 @@ public class Tower : MonoBehaviour
         fired = true;
     }
 
+    public bool CanBePlaced(int gridCellType)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public int PlacementType()
+    {
+        return placementType;
+    }
 }
