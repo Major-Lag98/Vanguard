@@ -2100,7 +2100,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.81121904
+  m_Intensity: 0.7423023
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -2435,7 +2435,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8370462
+  m_Intensity: 0.75951016
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -2636,6 +2636,7 @@ GameObject:
   - component: {fileID: 429992985}
   - component: {fileID: 429992984}
   - component: {fileID: 429992983}
+  - component: {fileID: 429992986}
   m_Layer: 5
   m_Name: SkipButton
   m_TagString: Untagged
@@ -2756,6 +2757,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 429992981}
   m_CullTransparentMesh: 0
+--- !u!114 &429992986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429992981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4225d53aa557c414db8a459f5d2df53b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowDuringDay: 1
+  ShowDuringNight: 1
+  ShowDuringAttacking: 0
+  InstantHide: 1
+  InstantShow: 1
+  PositionToShowAt: {x: 0, y: 0, z: 0}
+  PostionToHideAt: {x: 0, y: 0, z: 0}
+  TimeToTransitionIfNotInstance: 0.4
 --- !u!1 &436805845
 GameObject:
   m_ObjectHideFlags: 0
@@ -4954,7 +4975,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &900152453
@@ -7211,6 +7232,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1530538545}
+  - component: {fileID: 1530538546}
   m_Layer: 5
   m_Name: Time
   m_TagString: Untagged
@@ -7238,6 +7260,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -18.09998}
   m_SizeDelta: {x: 177.05225, y: 52.41835}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1530538546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530538544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4225d53aa557c414db8a459f5d2df53b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowDuringDay: 1
+  ShowDuringNight: 1
+  ShowDuringAttacking: 0
+  InstantHide: 1
+  InstantShow: 1
+  PositionToShowAt: {x: 0, y: 0, z: 0}
+  PostionToHideAt: {x: 0, y: 0, z: 0}
+  TimeToTransitionIfNotInstance: 0.4
 --- !u!1 &1591632196
 GameObject:
   m_ObjectHideFlags: 0
@@ -7302,7 +7344,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8147609
+  m_Intensity: 0.7363565
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -8036,7 +8078,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.81600094
+  m_Intensity: 0.7044761
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -12845,6 +12887,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1809948429}
+  - component: {fileID: 1809948430}
   m_Layer: 5
   m_Name: BuyCrop
   m_TagString: Untagged
@@ -12870,9 +12913,29 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -410.85, y: -650}
+  m_AnchoredPosition: {x: -414.8, y: -655.9}
   m_SizeDelta: {x: 244.3023, y: 212.41226}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1809948430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809948428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4225d53aa557c414db8a459f5d2df53b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowDuringDay: 1
+  ShowDuringNight: 0
+  ShowDuringAttacking: 0
+  InstantHide: 0
+  InstantShow: 0
+  PositionToShowAt: {x: -414.8, y: -412.2, z: 0}
+  PostionToHideAt: {x: -414.8, y: -655.9, z: 0}
+  TimeToTransitionIfNotInstance: 0.4
 --- !u!1 &1823644695
 GameObject:
   m_ObjectHideFlags: 0
