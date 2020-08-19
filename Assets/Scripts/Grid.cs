@@ -7,6 +7,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Grid : MonoBehaviour, ISerializationCallbackReceiver
 {
+    public enum GridCellType { None, Tower, Crops, Blocked}
 
     [SerializeField]
     //[HideInInspector]
