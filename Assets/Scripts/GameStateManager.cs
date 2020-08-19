@@ -14,7 +14,6 @@ public class GameStateManager : MonoBehaviour
     public Spawner Spawner;
     public float Timer; // Used for time of day cycle (buying, planting, placing towers) and night (time between attacks)
     public TextMeshProUGUI TimerText;
-    public Button SkipCycleButton;
 
     [Tooltip("The time between attacks from enemies at night.")]
     public float TimeBetweenAttacks = 60;
@@ -77,8 +76,6 @@ public class GameStateManager : MonoBehaviour
         if (Spawner.LoadNextWave())
         {
             Timer = TimeBetweenAttacks; // Reset our timer
-            ActivateTimerText((int)Timer); // Activate the timer text
-            SkipCycleButton.gameObject.SetActive(true); // Activate the skip button
             currState = State.Night;
             gameStateChanged?.Invoke(currState);
         }
@@ -94,17 +91,14 @@ public class GameStateManager : MonoBehaviour
     {
         Spawner.Spawning = true;
         currState = State.Attacking;
-        TimerText.gameObject.SetActive(false); // Hide the timer text
-        SkipCycleButton.gameObject.SetActive(false); // Hide the skip button
         currState = State.Attacking;
         gameStateChanged?.Invoke(currState);
     }
 
     void ToDay()
     {
-        Timer = TimeForDayCycle;
-        TimerText.text = FormatTimeText((int)Timer);
-        SkipCycleButton.gameObject.SetActive(true);
+        Timer = TimeForDayCycle; // Reset time
+        TimerText.text = FormatTimeText((int)Timer); // Set the text
         currState = State.Day;
         gameStateChanged?.Invoke(currState);
     }
