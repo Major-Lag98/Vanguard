@@ -10,7 +10,7 @@ public class Tower : MonoBehaviour, IPlaceable
     GameObject Arrow;
 
     [SerializeField]
-    float range = 1;
+    float range = 5;
 
     [SerializeField]
     int placementType = 1;
