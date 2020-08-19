@@ -12,6 +12,9 @@ public class Tower : MonoBehaviour
     [SerializeField]
     float range = 1;
 
+    [SerializeField]
+    int placementType = 1;
+
     bool fired;
 
     private void Start()
