@@ -9,26 +9,29 @@ public class HideAndShowUIElement : MonoBehaviour
     public bool ShowDuringNight;
     public bool ShowDuringAttacking;
 
-    public bool InstantHide = true;
+    [Tooltip("If true, the object is enabled on show. If false, a transition is used to move the object to PositionToShowAt")]
     public bool InstantShow = true;
+    [Tooltip("If true, the object is disabled on hide. If false, a transition is used to move the object to PositionToHideAt")]
+    public bool InstantHide = true;
 
+    [Tooltip("The position to transition to if InstantShow is false")]
     public Vector3 PositionToShowAt;
+    [Tooltip("The position to trainstion to if InstantHide is false")]
     public Vector3 PostionToHideAt;
 
+    [Tooltip("The time the transition takes (if applicable)")]
     public float TimeToTransitionIfNotInstance = 0.4f;
 
     bool hiding;
 
-    RectTransform rectTransform;
-
     private void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
         GameStateManager.Instance.AddGameStateChangedDelegate(GameStateChanged);
     }
 
     void GameStateChanged(GameStateManager.State state)
     {
+        // Switch on the state that has changed
         switch (state)
         {
             case GameStateManager.State.Day:
@@ -55,9 +58,10 @@ public class HideAndShowUIElement : MonoBehaviour
 
     void Show()
     {
+        // If instant, just set active
         if (InstantShow)
             gameObject.SetActive(true);
-        else
+        else // Otherwise we transition
         {
             var t = ((RectTransform)transform);
             DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), PositionToShowAt.y, TimeToTransitionIfNotInstance).SetEase(Ease.OutSine);
@@ -68,9 +72,10 @@ public class HideAndShowUIElement : MonoBehaviour
 
     void Hide()
     {
+        // If instance, just disable
         if (InstantHide)
             gameObject.SetActive(false);
-        else
+        else // Otherwise transition
         {
             var t = ((RectTransform)transform);
             DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), PostionToHideAt.y, TimeToTransitionIfNotInstance).SetEase(Ease.InSine);
