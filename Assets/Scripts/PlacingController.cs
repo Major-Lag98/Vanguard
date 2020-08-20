@@ -16,9 +16,6 @@ public class PlacingController : MonoBehaviour
     TextAsset PrefabFile;
 
     [SerializeField]
-    GameObjectPair[] GameObjectList;
-
-    [SerializeField]
     Grid grid;
     
     [SerializeField]
