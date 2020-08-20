@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goblin : MonoBehaviour
+public class Goblin : MonoBehaviour, IDamageable
 {
     public int MoveTickSpeed = 2;
 
@@ -15,6 +15,9 @@ public class Goblin : MonoBehaviour
     enum StateEnum {Moving, Attacking, TakingPlant, Leaving}
 
     private StateEnum currState = StateEnum.Moving;
+
+
+    public float health = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -120,6 +123,20 @@ public class Goblin : MonoBehaviour
 
     private void OnDestroy()
     {
-        //TimeTicker.Instance.RemoveOnTimeTickDelegate(MoveAlongPath, MoveTickSpeed);
+        TimeTicker.Instance.RemoveOnTimeTickDelegate(MoveAlongPath, MoveTickSpeed);
     }
+
+    public void Damage(int amount)
+    {
+        
+        health -= amount;
+        if (health <= 0)
+        {
+            EnemyManager.Instance.goblinList.Remove(gameObject);
+            Destroy(gameObject);
+        }
+
+        //Debug.Log($"Took damage, health is now {health}");
+    }
+
 }
