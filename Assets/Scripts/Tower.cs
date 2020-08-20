@@ -51,4 +51,14 @@ public class Tower : MonoBehaviour, IPlaceable
     {
         return placementType;
     }
+
+    public void Place(int x, int y)
+    {
+        
+    }
+
+    public void Remove(int x, int y)
+    {
+        
+    }
 }
