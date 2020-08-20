@@ -1,0 +1,14 @@
+{
+	"list": [
+		{
+			"id": 0,
+			"name": "crop",
+			"path": "Prefabs/crop"
+		},
+		{
+			"id": 1,
+			"name": "tower",
+			"path": "Prefabs 1/BowmanTower"
+		}
+	]
+}
