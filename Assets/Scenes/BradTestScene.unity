@@ -1912,7 +1912,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8384096
+  m_Intensity: 0.70863223
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -2316,7 +2316,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8042605
+  m_Intensity: 0.75755835
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -2784,6 +2784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d348241cd24089489b13198e5969739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlacementType: 2
 --- !u!212 &444184570
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4102,6 +4103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d348241cd24089489b13198e5969739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlacementType: 2
 --- !u!212 &691621450
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5067,6 +5069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d348241cd24089489b13198e5969739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlacementType: 2
 --- !u!212 &927645757
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5198,6 +5201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d348241cd24089489b13198e5969739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlacementType: 2
 --- !u!212 &983591553
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6496,6 +6500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d348241cd24089489b13198e5969739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlacementType: 2
 --- !u!212 &1398878592
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6820,7 +6825,6 @@ GameObject:
   - component: {fileID: 1482829632}
   - component: {fileID: 1482829631}
   - component: {fileID: 1482829634}
-  - component: {fileID: 1482829633}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -6855,20 +6859,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1482829633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1482829630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce43aeb3720d5df4f9ad0fb3508fa394, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grid: {fileID: 1482829634}
-  tower: {fileID: 5546438218440168345, guid: 99bf88b98b76bac41aa76c1a9d5be370, type: 3}
 --- !u!114 &1482829634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7444,7 +7434,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.7484668
+  m_Intensity: 0.74684095
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -7994,6 +7984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d348241cd24089489b13198e5969739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlacementType: 2
 --- !u!212 &1639668552
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8177,7 +8168,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8105915
+  m_Intensity: 0.7657962
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -15656,6 +15647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d348241cd24089489b13198e5969739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlacementType: 2
 --- !u!212 &1887864863
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15790,6 +15782,7 @@ GameObject:
   - component: {fileID: 1916858023}
   - component: {fileID: 1916858024}
   - component: {fileID: 1916858025}
+  - component: {fileID: 1916858026}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -15842,6 +15835,33 @@ MonoBehaviour:
   TimerText: {fileID: 1154349676}
   TimeBetweenAttacks: 60
   TimeForDayCycle: 180
+--- !u!114 &1916858026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916858022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce43aeb3720d5df4f9ad0fb3508fa394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prefabs:
+  - name: crop
+    id: 0
+    prefab: {fileID: 1510292192560594890, guid: 2f6f989fd1853264da882e27b7c17ad2, type: 3}
+  - name: tower
+    id: 0
+    prefab: {fileID: 5546438218440168345, guid: 99bf88b98b76bac41aa76c1a9d5be370, type: 3}
+  PrefabFile: {fileID: 4900000, guid: 39a56f708e1efc34696a0d509e2b877e, type: 3}
+  GameObjectList:
+  - ID: 0
+    PrefabObject: {fileID: 1510292192560594890, guid: 2f6f989fd1853264da882e27b7c17ad2, type: 3}
+  - ID: 1
+    PrefabObject: {fileID: 5546438218440168345, guid: 99bf88b98b76bac41aa76c1a9d5be370, type: 3}
+  grid: {fileID: 1482829634}
+  tower: {fileID: 5546438218440168345, guid: 99bf88b98b76bac41aa76c1a9d5be370, type: 3}
 --- !u!1 &1972412297
 GameObject:
   m_ObjectHideFlags: 0
@@ -16232,6 +16252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d348241cd24089489b13198e5969739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlacementType: 2
 --- !u!1 &2046591692
 GameObject:
   m_ObjectHideFlags: 0
@@ -16401,7 +16422,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1916858026}
+        m_TargetAssemblyTypeName: PlacingController, Assembly-CSharp
+        m_MethodName: SetPlacing
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: crop
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2135390456
 GameObject:
   m_ObjectHideFlags: 0
