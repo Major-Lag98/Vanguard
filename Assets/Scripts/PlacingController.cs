@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
+using System;
 
 //[System.Serializable]
 [ExecuteInEditMode]
 [System.Serializable]
-public class Testing : MonoBehaviour
+public class PlacingController : MonoBehaviour
 {
     [SerializeField]
     Grid grid;
@@ -19,8 +20,7 @@ public class Testing : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //x cell count, y cell count, cell size, origin position
-        //grid = new Grid(29, 22, 1, new Vector3(-24, -11));
+        
     }
 
 
@@ -38,14 +38,16 @@ public class Testing : MonoBehaviour
             Vector3 mousePos = UtilsClass.GetMouseWorldPosition();
             int thisGridValue = grid.GetValue(mousePos);
 
-            if (thisGridValue == 3 || thisGridValue == 1) //blocked or somthing is already there
+            if (thisGridValue == (int)Grid.GridCellType.Blocked) //blocked or somthing is already there
             {
                 return;
             }
-            if (thisGridValue == 0)
+
+            var placingType = currPlacing.GetComponent<IPlaceable>().PlacementType();
+            if (Enum.IsDefined(typeof(Grid.GridCellType), placingType) && thisGridValue == placingType)
             {
-                grid.SetValue(mousePos, 1);
-                SpawnTower(currPlacing);
+                SpawnPrefab(currPlacing);
+                Grid.Instance.SetValue(mousePos, (int)Grid.GridCellType.Blocked); // Mark the grid cell as blocked
             }
             
         }
@@ -72,7 +74,7 @@ public class Testing : MonoBehaviour
     public bool IsPlacing() => currPlacing != null;
 
 
-    private void SpawnTower(GameObject obj)
+    private void SpawnPrefab(GameObject obj)
     {
         Vector3 spawnPosition = UtilsClass.GetMouseWorldPosition();
         spawnPosition = ValidateWorldGridPosition(spawnPosition);
