@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
+using System;
 
 public class Tower : MonoBehaviour, IPlaceable
 {
@@ -17,9 +18,14 @@ public class Tower : MonoBehaviour, IPlaceable
 
     bool fired;
 
+    Tuple<int, int> gridIndex;
+
     private void Start()
     {
         TimeTicker.Instance.AddOnTimeTickDelegate(Fire, 1);
+
+        Grid.Instance.GetXY(transform.position, out var xIndex, out var yIndex);
+        Place(xIndex, yIndex);
     }
 
     public void Fire(int time)
@@ -49,18 +55,28 @@ public class Tower : MonoBehaviour, IPlaceable
         throw new System.NotImplementedException();
     }
 
-    public int PlacementType()
+    public int GetPlacementType()
     {
         return placementType;
     }
 
     public void Place(int x, int y)
     {
-        
+        // Hold our grid index for later
+        gridIndex = new Tuple<int, int>(x, y);
+
+        // Set the grid spot as taken
+        Grid.Instance.SetValue(x, y, (int)Grid.GridCellType.Blocked);
     }
 
     public void Remove(int x, int y)
     {
-        
+        // Set the grid back to our original type.
+        Grid.Instance.SetValue(x, y, GetPlacementType());
+    }
+
+    private void OnDestroy()
+    {
+        Remove(gridIndex.Item1, gridIndex.Item2);
     }
 }

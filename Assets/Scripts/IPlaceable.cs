@@ -12,7 +12,7 @@ public interface IPlaceable
     /// stuff on the Grid.
     /// </summary>
     /// <returns>An integer representing its type on the Grid</returns>
-    int PlacementType();
+    int GetPlacementType();
 
     /// <summary>
     /// Called when the object is placed on the Grid. Use the X and Y corrdinates to manipulate
