@@ -27,7 +27,6 @@ public class Goblin : MonoBehaviour, IDamageable
 
     void MoveAlongPath(int time)
     {
-        
         var target = points[currIter];
         Move(target);
         currIter++;
@@ -84,11 +83,17 @@ public class Goblin : MonoBehaviour, IDamageable
         }
     }
 
+    /// <summary>
+    /// Moves towards a target position freely (not following a path)
+    /// </summary>
+    /// <param name="targetPosition"></param>
     void MoveFreeTowardsTarget(Vector3 targetPosition)
     {
+        // The difference between our x and y and the target's x and y
         var yDiff = transform.position.y - targetPosition.y;
         var xDiff = transform.position.x - targetPosition.x;
 
+        // If our Y is at least one cell off, move towards
         if (Mathf.Abs(yDiff) > 0.6f)
         {
             var dir = yDiff > 0 ? -1 : 1;
@@ -97,6 +102,7 @@ public class Goblin : MonoBehaviour, IDamageable
             Move(new Vector3(x, y));
 
         }
+        // Otherwise if our X is at least one cell off, move towards
         else if (Mathf.Abs(xDiff) > 0.6f)
         {
             var dir = xDiff > 0 ? -1 : 1;
