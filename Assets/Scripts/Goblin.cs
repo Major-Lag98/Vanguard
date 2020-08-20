@@ -18,6 +18,7 @@ public class Goblin : MonoBehaviour, IDamageable
 
 
     public float health = 3;
+    private bool dead;
 
     // Start is called before the first frame update
     void Start()
@@ -134,12 +135,12 @@ public class Goblin : MonoBehaviour, IDamageable
 
     public void Damage(int amount)
     {
-        
         health -= amount;
-        if (health <= 0)
+        if (health <= 0 && !dead)
         {
             EnemyManager.Instance.goblinList.Remove(gameObject);
             Destroy(gameObject);
+            dead = true;
         }
 
         //Debug.Log($"Took damage, health is now {health}");

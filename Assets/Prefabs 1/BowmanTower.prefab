@@ -210,3 +210,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Arrow: {fileID: 8527776694984135465, guid: d1701604e6b5c2b49a40467649cf920e, type: 3}
+  range: 5
+  placementType: 1
