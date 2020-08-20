@@ -10,6 +10,8 @@ public class Arrow : MonoBehaviour
     [SerializeField]
     float speed = 5;
 
+    public IDamageable enemy = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,11 @@ public class Arrow : MonoBehaviour
 
         if (Vector3.Distance(transform.position, targetPosition) < .1f)
         {
+            if (enemy != null)
+            {
+                enemy.Damage(1);
+            }
+
             Destroy(gameObject);
         }
 

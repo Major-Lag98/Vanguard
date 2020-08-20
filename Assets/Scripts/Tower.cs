@@ -31,6 +31,7 @@ public class Tower : MonoBehaviour, IPlaceable
         }
         
         var enemy = EnemyManager.Instance.GetClosestEnemy(transform.position, range);
+        
 
         if (!enemy)
             return;
@@ -38,6 +39,7 @@ public class Tower : MonoBehaviour, IPlaceable
         GameObject projectile = Instantiate(Arrow, transform.position, Quaternion.identity);
         var arrow = projectile.GetComponent<Arrow>();
         arrow.targetPosition = enemy.transform.position;
+        arrow.enemy = enemy.GetComponent<IDamageable>();
 
         fired = true;
     }
