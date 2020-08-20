@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
 using System;
+using System.Linq;
 
 //[System.Serializable]
 [ExecuteInEditMode]
 [System.Serializable]
 public class PlacingController : MonoBehaviour
 {
+    public PrefabGroup[] Prefabs;
+
+    [SerializeField]
+    TextAsset PrefabFile;
+
+    [SerializeField]
+    GameObjectPair[] GameObjectList;
+
     [SerializeField]
     Grid grid;
     
@@ -17,10 +26,14 @@ public class PlacingController : MonoBehaviour
 
     GameObject currPlacing;
 
+    public static PlacingController Instance;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (Instance == null)
+            Instance = this;
+
     }
 
 
@@ -43,32 +56,44 @@ public class PlacingController : MonoBehaviour
                 return;
             }
 
-            var placingType = currPlacing.GetComponent<IPlaceable>().PlacementType();
+            var placingType = currPlacing.GetComponent<IPlaceable>().GetPlacementType();
             if (Enum.IsDefined(typeof(Grid.GridCellType), placingType) && thisGridValue == placingType)
             {
                 SpawnPrefab(currPlacing);
-                Grid.Instance.SetValue(mousePos, (int)Grid.GridCellType.Blocked); // Mark the grid cell as blocked
             }
             
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            SetPlacing(null);
+            SetPlacing("");
         }
         else if (Input.GetKeyDown(KeyCode.B))
         {
-            SetPlacing(tower);
+            SetPlacing("tower");
         }
         else if (Input.GetKeyDown(KeyCode.P)) // press P to get value DEBUG
         {
             Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
         }
-
     }
 
-    public void SetPlacing(GameObject obj)
+    public void SetPlacing(string placingName)
     {
-        currPlacing = obj;
+
+        // If the incoming name is empty or null, set our currPlacing to null
+        if (placingName.Length == 0 || placingName == null)
+            currPlacing = null;
+        // Otherwise try to load the group
+        else
+        {
+            var group = Prefabs.FirstOrDefault(p => p.name == placingName);
+            if (group.Equals(default(PrefabGroup))) // If the default was returned it means we didn't find a match. Set to null then
+                currPlacing = null;
+            else // Otherwise we try to load the prefab
+            {
+                currPlacing = group.prefab;
+            }
+        }
     }
 
     public bool IsPlacing() => currPlacing != null;
@@ -87,5 +112,24 @@ public class PlacingController : MonoBehaviour
     {
         grid.GetXY(position, out int x, out int y);
         return grid.GetWorldPosition(x, y);
+    }
+
+    [Serializable]
+    public struct PrefabGroupHolder
+    {
+        public List<PrefabGroup> list;
+
+        public PrefabGroupHolder(List<PrefabGroup> list)
+        {
+            this.list = list;
+        }
+    }
+
+    [Serializable]
+    public struct PrefabGroup
+    {
+        public string name;
+        public int id;
+        public GameObject prefab;
     }
 }
