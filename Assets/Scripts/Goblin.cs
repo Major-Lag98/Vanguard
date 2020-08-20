@@ -123,7 +123,7 @@ public class Goblin : MonoBehaviour, IDamageable
 
     private void OnDestroy()
     {
-        //TimeTicker.Instance.RemoveOnTimeTickDelegate(MoveAlongPath, MoveTickSpeed);
+        TimeTicker.Instance.RemoveOnTimeTickDelegate(MoveAlongPath, MoveTickSpeed);
     }
 
     public void Damage(int amount)
