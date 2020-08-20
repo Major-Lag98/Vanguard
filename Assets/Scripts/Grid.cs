@@ -33,8 +33,12 @@ public class Grid : MonoBehaviour, ISerializationCallbackReceiver
     [HideInInspector]
     int[] flatGrid;
 
+    public static Grid Instance;
+
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
     }
 
     private void Start()
