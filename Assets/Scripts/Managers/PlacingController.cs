@@ -38,6 +38,8 @@ public class PlacingController : MonoBehaviour
         if (Instance == null)
             Instance = this;
 
+        // Any time the game state changes, clear our placing so we can't do things like place crops at night
+        GameStateManager.Instance.AddGameStateChangedDelegate((_) => SetPlacing(""));
     }
 
 
