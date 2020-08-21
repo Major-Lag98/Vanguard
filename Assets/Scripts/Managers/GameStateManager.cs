@@ -43,6 +43,8 @@ public class GameStateManager : MonoBehaviour
     void Start()
     {
         ToDay();
+
+        CropManager.Instance.AddStopSellingCropDelegate(() => { sellingCrops = false; ToDay(); });
     }
 
     // Update is called once per frame
@@ -98,8 +100,9 @@ public class GameStateManager : MonoBehaviour
         // If the wave was not loaded (no more spawns), we can transition to day instead
         else if(!sellingCrops)
         {
+            Timer = TimeToSellCrops;
             sellingCrops = true;
-            StartCoroutine(SellCrops());
+            CropManager.Instance.SellCrops();
             currState = State.Night;
             gameStateChanged?.Invoke(currState);
         }
@@ -120,52 +123,6 @@ public class GameStateManager : MonoBehaviour
         TimerText.text = FormatTimeText((int)Timer); // Set the text
         currState = State.Day;
         gameStateChanged?.Invoke(currState);
-    }
-
-    /// <summary>
-    /// Sells each crop (with an animation) adding credits to the player
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator SellCrops()
-    {
-        Timer = TimeToSellCrops;
-
-        // Get a copy of the crop list
-        var crops = new List<Crop>(CropManager.Instance.GetCropList());
-        crops.Shuffle(); // Shuffle it
-        var timerPerCrop = TimeToSellCrops / crops.Count; // The time we spend per crop
-
-        foreach (var crop in crops)
-        {
-            var pos = crop.transform.position + new Vector3(0, 0.5f, -1); // Boost the starting position up a little
-            var coin = Instantiate(CropCoin, pos, Quaternion.identity); // The coin
-            TweenCoin(coin); // Our tween function for good looks
-            TweenCrop(crop.gameObject);
-            PlayerData.Instance.AddCredits(crop.CreditsAtHarvest); // Add the credits to the player
-            yield return new WaitForSeconds(timerPerCrop); // Wait our specified amount of time
-        }
-
-        yield return new WaitForSeconds(2f); // TODO Magic number
-        ToDay(); // Then transition to day
-        sellingCrops = false; // Stop selling crops
-        yield break;
-    }
-
-    void TweenCoin(GameObject coin)
-    {
-        var seq = DOTween.Sequence();
-        var origY = coin.transform.position.y;
-        seq.Append(coin.transform.DOMoveY(origY + 1, 0.3f).SetEase(Ease.OutSine))
-            .Append(coin.transform.DOMoveY(origY + 0.5f, 0.3f).SetEase(Ease.InSine))
-            .OnComplete(() => Destroy(coin));
-    }
-
-    void TweenCrop(GameObject crop)
-    {
-        var seq = DOTween.Sequence();
-        var origY = crop.transform.position.y;
-        seq.Append(crop.transform.DOMoveY(origY - 0.25f, 0.1f).SetEase(Ease.Linear))
-            .Append(crop.transform.DOMoveY(origY, 0.1f).SetEase(Ease.Linear));
     }
 
     /// <summary>
