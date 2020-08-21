@@ -45,7 +45,7 @@ public class TextContentManager : MonoBehaviour
                 if (textIter < text.Length) // If we're within our bounds still, then write!
                 {
                     writer.SetTextToWrite(text[textIter]); // Set the next line to write
-                    if (writer.AutoStartWriting) // Start writing if the writer is set to auto
+                    if (!writer.AutoStartWriting) // Start writing if the writer is set to auto
                         writer.StartWriting();
                 }
                 else                        // Otherwise we should close this UI

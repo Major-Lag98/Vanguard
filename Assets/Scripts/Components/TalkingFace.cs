@@ -42,6 +42,7 @@ public class TalkingFace : MonoBehaviour
 
     void StartWorking()
     {
+        original = transform.position;
         working = true;
     }
 

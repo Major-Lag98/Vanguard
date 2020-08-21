@@ -37,6 +37,8 @@ public class TextWriter : MonoBehaviour
     private int currIndex;
     private bool working;
 
+    private Coroutine storedRoutine;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,7 +68,7 @@ public class TextWriter : MonoBehaviour
     /// </summary>
     public void StartWriting()
     {
-        StartCoroutine(WriteText(StartDelay));
+        storedRoutine = StartCoroutine(WriteText(StartDelay));
     }
 
     private int SkipTokens(string text, int start)
@@ -79,11 +81,12 @@ public class TextWriter : MonoBehaviour
 
     private IEnumerator WriteText(float startDelay)
     {
+        working = true; // Change our working state to true;
+
         yield return new WaitForSecondsRealtime(startDelay);
 
         timePerCharacter = TotalWriteTime / originalText.Length;
         OnTextWriterStart?.Invoke(); // Call our start delegate
-        working = true; // Change our working state to true;
 
         var size = originalText.Length;
         while (currIndex < size)
@@ -114,7 +117,11 @@ public class TextWriter : MonoBehaviour
     {
         if (working)
         {
-            currIndex = originalText.Length - 1;
+            //currIndex = originalText.Length - 1;
+            StopCoroutine(storedRoutine);
+            OnTextWriterStop?.Invoke();
+            TextMeshProTarget.text = originalText;
+            working = false;
         }
     }
 
