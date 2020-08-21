@@ -203,9 +203,9 @@ public class GameStateManager : MonoBehaviour
 
     string FormatTimeText(int time)
     {
-        var minutes = time / 60;
-        var seconds = time % 60;
-        return $"{minutes}:{seconds}";
+        var minutes = Mathf.Clamp(time / 60, 0, 100);
+        var seconds = Mathf.Clamp(time % 60, 0, 60);
+        return $"{minutes}:{seconds:00}";
     }
 
     public void AddGameStateChangedDelegate(GameStateChangedDelegate del)
