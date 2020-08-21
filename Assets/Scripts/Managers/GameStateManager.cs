@@ -141,7 +141,7 @@ public class GameStateManager : MonoBehaviour
             var coin = Instantiate(CropCoin, pos, Quaternion.identity); // The coin
             TweenCoin(coin); // Our tween function for good looks
             TweenCrop(crop.gameObject);
-            PlayerData.Instance.Credits += crop.CreditsAtHarvest; // Add the credits to the player
+            PlayerData.Instance.AddCredits(crop.CreditsAtHarvest); // Add the credits to the player
             yield return new WaitForSeconds(timerPerCrop); // Wait our specified amount of time
         }
 
