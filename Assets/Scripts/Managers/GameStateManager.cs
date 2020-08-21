@@ -81,6 +81,8 @@ public class GameStateManager : MonoBehaviour
 
     void ToNight()
     {
+        DOTween.To(() => GlobalLight.intensity, x => GlobalLight.intensity = x, 0.5f, 1f);
+
         // Load the next wave when we go into night state. If loaded properly, we can proceed normally
         if (Spawner.LoadNextWave())
         {
@@ -112,29 +114,39 @@ public class GameStateManager : MonoBehaviour
 
     void ToDay()
     {
+        DOTween.To(() => GlobalLight.intensity, x => GlobalLight.intensity = x, 1f, 1f);
+
         Timer = TimeForDayCycle; // Reset time
         TimerText.text = FormatTimeText((int)Timer); // Set the text
         currState = State.Day;
         gameStateChanged?.Invoke(currState);
     }
 
+    /// <summary>
+    /// Sells each crop (with an animation) adding credits to the player
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SellCrops()
     {
         Timer = TimeToSellCrops;
-        var crops = CropManager.Instance.GetCropList();
-        var timerPerCrop = TimeToSellCrops / crops.Count;
+
+        // Get a copy of the crop list
+        var crops = new List<Crop>(CropManager.Instance.GetCropList());
+        crops.Shuffle(); // Shuffle it
+        var timerPerCrop = TimeToSellCrops / crops.Count; // The time we spend per crop
 
         foreach (var crop in crops)
         {
-            var pos = crop.transform.position + new Vector3(0, 0.5f, -1);
-            var coin = Instantiate(CropCoin, pos, Quaternion.identity);
-            TweenCoin(coin);
-            yield return new WaitForSeconds(timerPerCrop);
+            var pos = crop.transform.position + new Vector3(0, 0.5f, -1); // Boost the starting position up a little
+            var coin = Instantiate(CropCoin, pos, Quaternion.identity); // The coin
+            TweenCoin(coin); // Our tween function for good looks
+            PlayerData.Instance.Credits += crop.CreditsAtHarvest; // Add the credits to the player
+            yield return new WaitForSeconds(timerPerCrop); // Wait our specified amount of time
         }
 
         yield return new WaitForSeconds(2f); // TODO Magic number
-        ToDay();
-        sellingCrops = false;
+        ToDay(); // Then transition to day
+        sellingCrops = false; // Stop selling crops
         yield break;
     }
 
@@ -147,18 +159,25 @@ public class GameStateManager : MonoBehaviour
             .OnComplete(() => Destroy(coin));
     }
 
+    /// <summary>
+    /// Sets the state to day
+    /// </summary>
     public void SetDay()
     {
-        DOTween.To(() => GlobalLight.intensity, x => GlobalLight.intensity = x, 1f, 1f);
         ToDay();
     }
 
+    /// <summary>
+    /// Sets the state to night
+    /// </summary>
     public void SetNight()
     {
-        DOTween.To(() => GlobalLight.intensity, x => GlobalLight.intensity = x, 0.5f, 1f);
         ToNight();
     }
 
+    /// <summary>
+    /// Skips the current state
+    /// </summary>
     public void SkipCurrentState()
     {
         if (currState == State.Day)
