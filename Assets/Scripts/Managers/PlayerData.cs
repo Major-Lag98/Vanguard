@@ -16,4 +16,21 @@ public class PlayerData : MonoBehaviour
 
     public int Credits = 0;
 
+
+    public bool CanAfford(int amount)
+    {
+        if ((Credits - amount) < 0)
+        {
+            return false;
+        }
+        else return true;
+
+        
+    }
+
+    public void Spend(int amount)
+    {
+        Credits -= amount;
+    }
+
 }
