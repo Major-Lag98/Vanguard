@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [SelectionBase]
-public class Crop : MonoBehaviour, IPlaceable
+public class Crop : MonoBehaviour, IPlaceable, IBuyable
 {
     public Grid.GridCellType PlacementType = Grid.GridCellType.Crops;
     public int CreditsAtHarvest = 10;
+    public int CostToPlace = 10;
 
     private bool reserved;
     private Tuple<int, int> gridIndex;
@@ -65,5 +66,10 @@ public class Crop : MonoBehaviour, IPlaceable
     private void OnDestroy()
     {
         Remove(gridIndex.Item1, gridIndex.Item2);
+    }
+
+    public int GetCost()
+    {
+        return CostToPlace;
     }
 }

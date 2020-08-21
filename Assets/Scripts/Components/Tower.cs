@@ -4,7 +4,7 @@ using UnityEngine;
 using CodeMonkey.Utils;
 using System;
 
-public class Tower : MonoBehaviour, IPlaceable, ISelectable
+public class Tower : MonoBehaviour, IPlaceable, ISelectable, IBuyable
 {
 
     [SerializeField]
@@ -15,6 +15,8 @@ public class Tower : MonoBehaviour, IPlaceable, ISelectable
 
     [SerializeField]
     int placementType = 1;
+
+    public int CostToPlace = 10;
 
     bool fired;
 
@@ -93,5 +95,10 @@ public class Tower : MonoBehaviour, IPlaceable, ISelectable
     private void OnMouseUp()
     {
         Select();
+    }
+
+    public int GetCost()
+    {
+        return CostToPlace;
     }
 }
