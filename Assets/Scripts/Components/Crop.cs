@@ -7,6 +7,7 @@ using UnityEngine;
 public class Crop : MonoBehaviour, IPlaceable
 {
     public Grid.GridCellType PlacementType = Grid.GridCellType.Crops;
+    public int CreditsAtHarvest = 10;
 
     private bool reserved;
     private Tuple<int, int> gridIndex;
