@@ -20,8 +20,6 @@ public class Goblin : MonoBehaviour, IDamageable
     public float health = 3;
     private bool dead;
 
-    //bool dead = false;
-
     // Start is called before the first frame update
     void Start()
     {
