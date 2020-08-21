@@ -140,6 +140,7 @@ public class GameStateManager : MonoBehaviour
             var pos = crop.transform.position + new Vector3(0, 0.5f, -1); // Boost the starting position up a little
             var coin = Instantiate(CropCoin, pos, Quaternion.identity); // The coin
             TweenCoin(coin); // Our tween function for good looks
+            TweenCrop(crop.gameObject);
             PlayerData.Instance.Credits += crop.CreditsAtHarvest; // Add the credits to the player
             yield return new WaitForSeconds(timerPerCrop); // Wait our specified amount of time
         }
@@ -157,6 +158,14 @@ public class GameStateManager : MonoBehaviour
         seq.Append(coin.transform.DOMoveY(origY + 1, 0.3f).SetEase(Ease.OutSine))
             .Append(coin.transform.DOMoveY(origY + 0.5f, 0.3f).SetEase(Ease.InSine))
             .OnComplete(() => Destroy(coin));
+    }
+
+    void TweenCrop(GameObject crop)
+    {
+        var seq = DOTween.Sequence();
+        var origY = crop.transform.position.y;
+        seq.Append(crop.transform.DOMoveY(origY - 0.25f, 0.1f).SetEase(Ease.Linear))
+            .Append(crop.transform.DOMoveY(origY, 0.1f).SetEase(Ease.Linear));
     }
 
     /// <summary>
