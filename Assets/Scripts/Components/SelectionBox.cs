@@ -39,9 +39,8 @@ public class SelectionBox : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        transform.parent = null;
     }
 }
