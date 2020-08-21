@@ -23,6 +23,8 @@ public class PlayerData : MonoBehaviour
         {
             Instance = this;
         }
+
+        CreditText.text = credits.ToString();
     }
 
 
