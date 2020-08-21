@@ -10,7 +10,7 @@ public class Arrow : MonoBehaviour
     [SerializeField]
     float speed = 5;
 
-    public IDamageable enemy = null;
+    public Goblin enemy = null;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +34,7 @@ public class Arrow : MonoBehaviour
             if (enemy != null)
             {
                 enemy.Damage(1);
+                enemy.Hit(angle);
             }
 
             Destroy(gameObject);
