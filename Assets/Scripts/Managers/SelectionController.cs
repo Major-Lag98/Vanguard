@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class SelectionController : MonoBehaviour
 {
-    public GameObject SelectionRect;
+    public GameObject SelectionRectPrefab;
 
     private GameObject selected;
     private ISelectable selectable;
+    private GameObject selectionRect;
 
     public static SelectionController Instance;
 
@@ -16,6 +17,9 @@ public class SelectionController : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
+
+        selectionRect = Instantiate(SelectionRectPrefab);
+        selectionRect.SetActive(false); // Disable immediately
     }
 
     private void Update()
@@ -34,7 +38,7 @@ public class SelectionController : MonoBehaviour
         if (selected == null)
         {
             this.selected = null;
-            SelectionRect.SetActive(false);
+            selectionRect.SetActive(false);
             return;
         }
         
@@ -42,13 +46,10 @@ public class SelectionController : MonoBehaviour
         // Then hook us up with the current stuff
         this.selected = selected;
         this.selectable = selected.GetComponent<ISelectable>();
-        SelectionRect.SetActive(true);
-        SelectionRect.transform.parent = selected.transform;
-        SelectionRect.transform.localPosition = new Vector3(0, 0, -5);
+        selectionRect.SetActive(true);
+        selectionRect.transform.parent = selected.transform;
+        selectionRect.transform.localPosition = new Vector3(0, 0, -5);
     }
 
-    private void OnDisable()
-    {
-        transform.parent = null;
-    }
+   
 }
