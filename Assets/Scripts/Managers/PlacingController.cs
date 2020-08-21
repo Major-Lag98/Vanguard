@@ -32,9 +32,6 @@ public class PlacingController : MonoBehaviour
 
     public static PlacingController Instance;
 
-    [SerializeField]
-    int costOfBowMan = 10;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -66,10 +63,11 @@ public class PlacingController : MonoBehaviour
             var placingType = currPlacing.GetComponent<IPlaceable>().GetPlacementType();
             if (Enum.IsDefined(typeof(Grid.GridCellType), placingType) && thisGridValue == placingType)
             {
-                if (PlayerData.Instance.CanAfford(costOfBowMan))
+                var cost = currPlacing.GetComponent<IBuyable>().GetCost();
+                if (PlayerData.Instance.CanAfford(cost))
                 {
                     SpawnPrefab(currPlacing);
-                    PlayerData.Instance.Spend(costOfBowMan);
+                    PlayerData.Instance.Spend(cost);
                 }
                 
             }
