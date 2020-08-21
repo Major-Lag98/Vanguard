@@ -46,4 +46,9 @@ public class SelectionController : MonoBehaviour
         SelectionRect.transform.parent = selected.transform;
         SelectionRect.transform.localPosition = new Vector3(0, 0, -5);
     }
+
+    private void OnDisable()
+    {
+        transform.parent = null;
+    }
 }
