@@ -1,11 +1,12 @@
 ﻿using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Goblin : MonoBehaviour, IDamageable
 {
     public int MoveTickSpeed = 2;
+
+    public AudioClip HitSound;
+    public AudioClip DieSound;
 
     private Vector3[] points;
     private int currIter;
@@ -14,8 +15,7 @@ public class Goblin : MonoBehaviour, IDamageable
 
     enum StateEnum {Moving, Attacking, TakingPlant, Leaving}
 
-    private StateEnum currState = StateEnum.Moving;
-
+    private AudioSource audioSource;
 
     public float health = 3;
     private bool dead;
@@ -24,6 +24,8 @@ public class Goblin : MonoBehaviour, IDamageable
     void Start()
     {
         TimeTicker.Instance.AddOnTimeTickDelegate(MoveAlongPath, MoveTickSpeed);
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     void MoveAlongPath(int time)
@@ -45,7 +47,6 @@ public class Goblin : MonoBehaviour, IDamageable
                 crop.SetReserved(true);
                 CropManager.Instance.RemoveCrop(crop);
                 targetCrop = crop.gameObject;
-                currState = StateEnum.TakingPlant; // When we get to the end, take a plant
                 TimeTicker.Instance.AddOnTimeTickDelegate(MoveToPlant, MoveTickSpeed); // Add the next callback
 
             // Otherwise just move off screen
@@ -65,7 +66,6 @@ public class Goblin : MonoBehaviour, IDamageable
         {
             TimeTicker.Instance.RemoveOnTimeTickDelegate(MoveToPlant, MoveTickSpeed);
             TimeTicker.Instance.AddOnTimeTickDelegate(MoveOffScreen, MoveTickSpeed);
-            currState = StateEnum.Leaving; // When we get to the end, take a plant
             Destroy(targetCrop.gameObject);
         }
     }
@@ -155,9 +155,16 @@ public class Goblin : MonoBehaviour, IDamageable
         health -= amount;
         if (health <= 0 && !dead)
         {
+            // Since this goblin will be destoryed, we need to use an audio source that isn't tied to it.
+            // The GameManager has a AudioSource that won't be destroyed we can use
+            GameStateManager.Instance.GetComponent<AudioSource>().PlayOneShot(DieSound);
             EnemyManager.Instance.goblinList.Remove(gameObject);
             Destroy(gameObject);
-            dead = true;
+            dead = true; // Keep use from calling this again
+        }
+        else
+        {
+            audioSource.PlayOneShot(HitSound);
         }
 
         //Debug.Log($"Took damage, health is now {health}");
