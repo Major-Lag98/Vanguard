@@ -2366,7 +2366,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8358448
+  m_Intensity: 0.7808502
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -2770,7 +2770,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.74348366
+  m_Intensity: 0.8195975
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -8711,7 +8711,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8343253
+  m_Intensity: 0.7114618
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -9507,7 +9507,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8015779
+  m_Intensity: 0.8271835
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -17476,6 +17476,7 @@ MonoBehaviour:
   grid: {fileID: 1482829634}
   tower: {fileID: 5546438218440168345, guid: 99bf88b98b76bac41aa76c1a9d5be370, type: 3}
   ghostTower: {fileID: 5546438218440168345, guid: 29e0f6c1c2cb3894fb5a6723517a3df2, type: 3}
+  costOfBowMan: 10
 --- !u!114 &1916858027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17503,7 +17504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreditText: {fileID: 145462774}
   TweenTime: 0.5
-  credits: 100
+  credits: 10
 --- !u!1 &1935819458
 GameObject:
   m_ObjectHideFlags: 0
