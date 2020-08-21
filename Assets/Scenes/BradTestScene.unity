@@ -2448,7 +2448,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.79305387
+  m_Intensity: 0.76782715
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -2852,7 +2852,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.77974916
+  m_Intensity: 0.70401853
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -9001,7 +9001,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8388329
+  m_Intensity: 0.7277001
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -9796,7 +9796,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.705953
+  m_Intensity: 0.8076415
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -17814,6 +17814,7 @@ MonoBehaviour:
   PrefabFile: {fileID: 4900000, guid: 39a56f708e1efc34696a0d509e2b877e, type: 3}
   grid: {fileID: 1482829634}
   tower: {fileID: 5546438218440168345, guid: 99bf88b98b76bac41aa76c1a9d5be370, type: 3}
+  ghostTower: {fileID: 5546438218440168345, guid: 29e0f6c1c2cb3894fb5a6723517a3df2, type: 3}
 --- !u!114 &1916858027
 MonoBehaviour:
   m_ObjectHideFlags: 0

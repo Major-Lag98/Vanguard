@@ -23,6 +23,13 @@ public class PlacingController : MonoBehaviour
 
     GameObject currPlacing;
 
+    [SerializeField]
+    GameObject ghostTower;
+
+    GameObject ghost;
+
+    bool ghostInstantiated = false;
+
     public static PlacingController Instance;
 
     // Start is called before the first frame update
@@ -72,7 +79,31 @@ public class PlacingController : MonoBehaviour
         {
             Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
         }
+
+        if (currPlacing == Prefabs.FirstOrDefault(p => p.name == "tower").prefab && IsPlacing())//check if were placing a tower so we can have a ghost to show when placing
+        {
+            //Debug.Log("Placing Tower");
+            Vector3 spawnPosition = UtilsClass.GetMouseWorldPosition();
+            spawnPosition = ValidateWorldGridPosition(spawnPosition);
+            spawnPosition += new Vector3(1, 1, 0) * grid.GetCellSize() * .5f;
+
+            if (ghostInstantiated == false)
+            {
+                ghost = Instantiate(ghostTower);
+                ghostInstantiated = true;
+            }
+            // ghost.SetActive(true);
+            ghost.transform.position = spawnPosition;
+
+        }
+        else if (ghost)
+        {
+            Destroy(ghost);
+            ghostInstantiated = false;
+        }
     }
+
+    
 
     public void SetPlacing(string placingName)
     {
@@ -129,4 +160,5 @@ public class PlacingController : MonoBehaviour
         public int id;
         public GameObject prefab;
     }
+
 }
