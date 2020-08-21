@@ -10,10 +10,13 @@ public class GameStateManager : MonoBehaviour
 {
     public delegate void GameStateChangedDelegate(State state);
 
+    public GameObject CropCoin;
     public Light2D GlobalLight;
     public Spawner Spawner;
     public float Timer; // Used for time of day cycle (buying, planting, placing towers) and night (time between attacks)
     public TextMeshProUGUI TimerText;
+    public float TimeToSellCrops = 5f;
+
 
     [Tooltip("The time between attacks from enemies at night.")]
     public float TimeBetweenAttacks = 60;
@@ -23,6 +26,8 @@ public class GameStateManager : MonoBehaviour
 
     public enum State { Day, Night, Attacking};
     State currState = State.Day;
+
+    bool sellingCrops;
 
     GameStateChangedDelegate gameStateChanged;
 
@@ -55,11 +60,15 @@ public class GameStateManager : MonoBehaviour
                 break;
 
             case State.Night:
+
                 Timer -= Time.deltaTime;
-                if (Timer <= 0)
-                    ToAttacking();
-                else
-                    TimerText.text = FormatTimeText((int)Timer);
+                TimerText.text = FormatTimeText((int)Timer);
+
+                if (!sellingCrops)
+                {
+                    if (Timer <= 0)
+                        ToAttacking();
+                }
 
                 break;
 
@@ -85,11 +94,13 @@ public class GameStateManager : MonoBehaviour
             }
         }
         // If the wave was not loaded (no more spawns), we can transition to day instead
-        else
+        else if(!sellingCrops)
         {
-            ToDay();
+            sellingCrops = true;
+            StartCoroutine(SellCrops());
+            currState = State.Night;
+            gameStateChanged?.Invoke(currState);
         }
-        
     }
 
     void ToAttacking()
@@ -105,6 +116,35 @@ public class GameStateManager : MonoBehaviour
         TimerText.text = FormatTimeText((int)Timer); // Set the text
         currState = State.Day;
         gameStateChanged?.Invoke(currState);
+    }
+
+    IEnumerator SellCrops()
+    {
+        Timer = TimeToSellCrops;
+        var crops = CropManager.Instance.GetCropList();
+        var timerPerCrop = TimeToSellCrops / crops.Count;
+
+        foreach (var crop in crops)
+        {
+            var pos = crop.transform.position + new Vector3(0, 0.5f, -1);
+            var coin = Instantiate(CropCoin, pos, Quaternion.identity);
+            TweenCoin(coin);
+            yield return new WaitForSeconds(timerPerCrop);
+        }
+
+        yield return new WaitForSeconds(2f); // TODO Magic number
+        ToDay();
+        sellingCrops = false;
+        yield break;
+    }
+
+    void TweenCoin(GameObject coin)
+    {
+        var seq = DOTween.Sequence();
+        var origY = coin.transform.position.y;
+        seq.Append(coin.transform.DOMoveY(origY + 1, 0.3f).SetEase(Ease.OutSine))
+            .Append(coin.transform.DOMoveY(origY + 0.5f, 0.3f).SetEase(Ease.InSine))
+            .OnComplete(() => Destroy(coin));
     }
 
     public void SetDay()
