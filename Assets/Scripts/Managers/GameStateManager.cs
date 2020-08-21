@@ -76,8 +76,13 @@ public class GameStateManager : MonoBehaviour
         if (Spawner.LoadNextWave())
         {
             Timer = TimeBetweenAttacks; // Reset our timer
-            currState = State.Night;
-            gameStateChanged?.Invoke(currState);
+            if (currState == State.Day) // If we're coming from day, go straight to attacking
+                ToAttacking();
+            else // Otherwise go to regular night cycle
+            {
+                currState = State.Night;
+                gameStateChanged?.Invoke(currState);
+            }
         }
         // If the wave was not loaded (no more spawns), we can transition to day instead
         else
@@ -90,7 +95,6 @@ public class GameStateManager : MonoBehaviour
     void ToAttacking()
     {
         Spawner.Spawning = true;
-        currState = State.Attacking;
         currState = State.Attacking;
         gameStateChanged?.Invoke(currState);
     }
