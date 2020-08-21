@@ -31,7 +31,7 @@ public class SelectionController : MonoBehaviour
     public void Select(GameObject selected)
     {
         // If our previous selected is not null, deselect it
-        if (this.selected != null) { 
+        if (this.selected != null)
             this.selectable.Deselect();
 
         // If incoming object is null, clear everything
