@@ -38,9 +38,4 @@ public class SelectionBox : MonoBehaviour
             }
         }
     }
-
-    private void OnDisable()
-    {
-        transform.parent = null;
-    }
 }

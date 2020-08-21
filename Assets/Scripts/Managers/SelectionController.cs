@@ -31,17 +31,17 @@ public class SelectionController : MonoBehaviour
     public void Select(GameObject selected)
     {
         // If our previous selected is not null, deselect it
-        if (this.selected != null)
+        if (this.selected != null) { 
             this.selectable.Deselect();
 
         // If incoming object is null, clear everything
         if (selected == null)
         {
-            this.selected = null;
-            selectionRect.SetActive(false);
+            this.selected = null; // Clear our selected
+            selectionRect.transform.parent = null; // Clear the rect's parent
+            selectionRect.SetActive(false); // Disable the rect
             return;
         }
-        
 
         // Then hook us up with the current stuff
         this.selected = selected;
