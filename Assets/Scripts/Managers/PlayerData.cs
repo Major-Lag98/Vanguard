@@ -14,7 +14,7 @@ public class PlayerData : MonoBehaviour
         }
     }
 
-    public int Credits = 0;
+    public int Credits = 100;
 
 
     public bool CanAfford(int amount)
@@ -31,6 +31,9 @@ public class PlayerData : MonoBehaviour
     public void Spend(int amount)
     {
         Credits -= amount;
+        Debug.Log($"Credits = {Credits}");
     }
+
+
 
 }

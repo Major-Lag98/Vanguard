@@ -63,7 +63,12 @@ public class PlacingController : MonoBehaviour
             var placingType = currPlacing.GetComponent<IPlaceable>().GetPlacementType();
             if (Enum.IsDefined(typeof(Grid.GridCellType), placingType) && thisGridValue == placingType)
             {
-                SpawnPrefab(currPlacing);
+                if (PlayerData.Instance.CanAfford(10))
+                {
+                    SpawnPrefab(currPlacing);
+                    PlayerData.Instance.Spend(10);
+                }
+                
             }
             
         }
