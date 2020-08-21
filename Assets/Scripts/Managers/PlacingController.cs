@@ -52,7 +52,7 @@ public class PlacingController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && IsPlacing()) //left click to place
         {
-            Vector3 mousePos = UtilsClass.GetMouseWorldPosition();
+            Vector3 mousePos = UtilsClass.GetMouseWorldPosition(); // Gets the world position where we clicked
             int thisGridValue = grid.GetValue(mousePos);
 
             if (thisGridValue == (int)Grid.GridCellType.Blocked) //blocked or somthing is already there
@@ -60,20 +60,22 @@ public class PlacingController : MonoBehaviour
                 return;
             }
 
-            var placingType = currPlacing.GetComponent<IPlaceable>().GetPlacementType();
+            var placingType = currPlacing.GetComponent<IPlaceable>().GetPlacementType(); // Get the grid type of the thing we're placing
+
+            // Checks if the placingType is valid for Grid.GridCellType and that the grid allowed type equals our thing's type
             if (Enum.IsDefined(typeof(Grid.GridCellType), placingType) && thisGridValue == placingType)
             {
-                var cost = currPlacing.GetComponent<IBuyable>().GetCost();
-                if (PlayerData.Instance.CanAfford(cost))
+                var cost = currPlacing.GetComponent<IBuyable>().GetCost(); // Get the cost from the thing
+                if (PlayerData.Instance.CanAfford(cost)) // Check if we can afford
                 {
-                    SpawnPrefab(currPlacing);
-                    PlayerData.Instance.Spend(cost);
+                    SpawnPrefab(currPlacing); //Spawn the prefab
+                    PlayerData.Instance.Spend(cost); // Subtract the cost
                 }
                 
             }
             
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(1)) // CLear our placing on right click
         {
             SetPlacing("");
         }
@@ -108,8 +110,6 @@ public class PlacingController : MonoBehaviour
             ghostInstantiated = false;
         }
     }
-
-    
 
     public void SetPlacing(string placingName)
     {
