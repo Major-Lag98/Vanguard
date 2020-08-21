@@ -128,6 +128,23 @@ public class Goblin : MonoBehaviour, IDamageable
         this.points = points;
     }
 
+    public void Hit(float angle)
+    {
+        var speed = 0.05f;
+        var scale = 0.3f;
+
+        var x = Mathf.Cos(angle);
+        var y = Mathf.Sin(angle);
+
+        var target = Vector3.MoveTowards(transform.position, transform.position + new Vector3(x, y) * scale, 1f);
+        var original = transform.position;
+
+        var seq = DOTween.Sequence();
+        seq.Append(transform.DOMove(target, speed))
+            .Append(transform.DOMove(original, speed));
+        
+    }
+
     private void OnDestroy()
     {
         TimeTicker.Instance.RemoveOnTimeTickDelegate(MoveAlongPath, MoveTickSpeed);

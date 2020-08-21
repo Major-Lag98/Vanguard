@@ -45,7 +45,7 @@ public class Tower : MonoBehaviour, IPlaceable, ISelectable
         GameObject projectile = Instantiate(Arrow, transform.position, Quaternion.identity);
         var arrow = projectile.GetComponent<Arrow>();
         arrow.targetPosition = enemy.transform.position;
-        arrow.enemy = enemy.GetComponent<IDamageable>();
+        arrow.enemy = enemy.GetComponent<Goblin>();
 
         fired = true;
     }
