@@ -4,7 +4,7 @@ using UnityEngine;
 using CodeMonkey.Utils;
 using System;
 
-public class Tower : MonoBehaviour, IPlaceable
+public class Tower : MonoBehaviour, IPlaceable, ISelectable
 {
 
     [SerializeField]
@@ -78,5 +78,20 @@ public class Tower : MonoBehaviour, IPlaceable
     private void OnDestroy()
     {
         Remove(gridIndex.Item1, gridIndex.Item2);
+    }
+
+    public void Select()
+    {
+        SelectionController.Instance.Select(gameObject);
+    }
+
+    public void Deselect()
+    {
+
+    }
+
+    private void OnMouseUp()
+    {
+        Select();
     }
 }
