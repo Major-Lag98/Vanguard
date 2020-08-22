@@ -33,7 +33,11 @@ public class GameStateManager : MonoBehaviour
 
     GameStateChangedDelegate gameStateChanged;
 
+    private int dayCycleNumber = 0; // The day we're on
+
     public static GameStateManager Instance;
+
+    public int DayCycleNumber { get => dayCycleNumber; private set => dayCycleNumber = value; }
 
     private void Awake()
     {
@@ -45,9 +49,9 @@ public class GameStateManager : MonoBehaviour
     void Start()
     {
         currState = State.Day;
-        ToNight();
         
         CropManager.Instance.AddStopSellingCropDelegate(() => { sellingCrops = false; ToDay(); });
+        Timer = TimeForDayCycle;
     }
 
     // Update is called once per frame
@@ -58,7 +62,7 @@ public class GameStateManager : MonoBehaviour
             case State.Day:
                 Timer -= Time.deltaTime;
                 if (Timer <= 0)
-                    ToNight();
+                    SetNight();
                 else
                     TimerText.text = FormatTimeText((int)Timer);
 
@@ -87,7 +91,7 @@ public class GameStateManager : MonoBehaviour
     void ToNight()
     {
         BackgroundAudio.pitch = .5f;
-        DOTween.To(() => GlobalLight.intensity, x => GlobalLight.intensity = x, 0.5f, 1f);
+        DOTween.To(() => GlobalLight.intensity, x => GlobalLight.intensity = x, 0.3f, 1f).SetUpdate(true);
 
         // Load the next wave when we go into night state. If loaded properly, we can proceed normally
         if (Spawner.LoadNextWave())
@@ -121,13 +125,17 @@ public class GameStateManager : MonoBehaviour
 
     void ToDay()
     {
+        DayCycleNumber++;
         BackgroundAudio.pitch = 1;
-        DOTween.To(() => GlobalLight.intensity, x => GlobalLight.intensity = x, 1f, 1f);
+        DOTween.To(() => GlobalLight.intensity, x => GlobalLight.intensity = x, 1f, 1f).SetUpdate(true);
 
         Timer = TimeForDayCycle; // Reset time
         TimerText.text = FormatTimeText((int)Timer); // Set the text
         currState = State.Day;
         gameStateChanged?.Invoke(currState);
+
+        if (DayCycleNumber == 1)
+            TextContentManager.Instance.Begin(1);
     }
 
     /// <summary>
@@ -143,6 +151,7 @@ public class GameStateManager : MonoBehaviour
     /// </summary>
     public void SetNight()
     {
+        Spawner.LoadNextLevel();
         ToNight();
     }
 

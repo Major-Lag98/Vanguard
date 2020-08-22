@@ -2,9 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HideAndShowUIElement : MonoBehaviour, IHideableUI
 {
+    [Tooltip("If true, only responds to calling Show() and Hide() from API")]
+    public bool ManualControl = false;
+
+    public bool StartHidden;
+
     public bool ShowDuringDay;
     public bool ShowDuringNight;
     public bool ShowDuringAttacking;
@@ -22,15 +28,28 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
     [Tooltip("The time the transition takes (if applicable)")]
     public float TimeToTransitionIfNotInstance = 0.4f;
 
+    public Ease ShowEase = Ease.OutSine;
+    public Ease HideEase = Ease.InSine;
+
+    public delegate void OnEventDelegate();
+
+    OnEventDelegate OnHidden;
+    OnEventDelegate OnShowing;
+
     bool hiding;
 
     private void Start()
     {
         GameStateManager.Instance.AddGameStateChangedDelegate(GameStateChanged);
+        if (StartHidden)
+            Hide();
     }
 
     void GameStateChanged(GameStateManager.State state)
     {
+        if (ManualControl)
+            return;
+
         // Switch on the state that has changed
         switch (state)
         {
@@ -63,12 +82,16 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
             gameObject.SetActive(true);
         else // Otherwise we transition
         {
-            var t = ((RectTransform)transform);
-            DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), PositionToShowAt.y, TimeToTransitionIfNotInstance).SetEase(Ease.OutSine);
+            Tween(PositionToShowAt.y, () => OnShowing?.Invoke());
+            
         }
 
         hiding = false;
+        if(GetComponentInChildren<Button>() is Button button)
+            button.interactable = true;
     }
+
+   
 
     public void Hide()
     {
@@ -77,15 +100,40 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
             gameObject.SetActive(false);
         else // Otherwise transition
         {
-            var t = ((RectTransform)transform);
-            DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), PostionToHideAt.y, TimeToTransitionIfNotInstance).SetEase(Ease.InSine);
+            Tween(PostionToHideAt.y, () => OnHidden?.Invoke());
         }
 
         hiding = true;
+        if (GetComponentInChildren<Button>() is Button button)
+            button.interactable = false;
     }
 
     public void Toggle()
     {
 
     }
+
+    void Tween(float targetY, TweenCallback callback)
+    {
+        var t = ((RectTransform)transform);
+
+        var seq = DOTween.Sequence();
+        seq.Append(DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), targetY, TimeToTransitionIfNotInstance)
+            .SetEase(ShowEase));
+        seq.OnComplete(callback);
+        seq.SetUpdate(true);
+        seq.timeScale = 1;
+    }
+
+    public void AddOnHideDelegate(OnEventDelegate del)
+        => OnHidden += del;
+
+    public void AddOnShowDelegate(OnEventDelegate del)
+        => OnShowing += del;
+
+    public void RemoveOnHideDelegate(OnEventDelegate del)
+        => OnHidden -= del;
+
+    public void RemoveOnShowDelegate(OnEventDelegate del)
+        => OnShowing -= del;
 }

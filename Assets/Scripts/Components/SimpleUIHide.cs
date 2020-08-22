@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class SimpleUIHide : MonoBehaviour, IHideableUI
 {
+
+    public bool StartHidden;
+
+    private void Start()
+    {
+        if (StartHidden)
+            Hide();
+    }
+
     public void Hide()
     {
         gameObject.SetActive(false);
