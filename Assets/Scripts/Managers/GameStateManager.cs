@@ -17,6 +17,8 @@ public class GameStateManager : MonoBehaviour
     public TextMeshProUGUI TimerText;
     public float TimeToSellCrops = 5f;
 
+    [SerializeField]
+    AudioSource BackgroundAudio;
 
     [Tooltip("The time between attacks from enemies at night.")]
     public float TimeBetweenAttacks = 60;
@@ -43,7 +45,7 @@ public class GameStateManager : MonoBehaviour
     void Start()
     {
         ToDay();
-
+        
         CropManager.Instance.AddStopSellingCropDelegate(() => { sellingCrops = false; ToDay(); });
     }
 
@@ -83,6 +85,7 @@ public class GameStateManager : MonoBehaviour
 
     void ToNight()
     {
+        BackgroundAudio.pitch = .5f;
         DOTween.To(() => GlobalLight.intensity, x => GlobalLight.intensity = x, 0.5f, 1f);
 
         // Load the next wave when we go into night state. If loaded properly, we can proceed normally
@@ -117,6 +120,7 @@ public class GameStateManager : MonoBehaviour
 
     void ToDay()
     {
+        BackgroundAudio.pitch = 1;
         DOTween.To(() => GlobalLight.intensity, x => GlobalLight.intensity = x, 1f, 1f);
 
         Timer = TimeForDayCycle; // Reset time
