@@ -213,6 +213,7 @@ MonoBehaviour:
   Arrow: {fileID: 8527776694984135465, guid: d1701604e6b5c2b49a40467649cf920e, type: 3}
   range: 5
   placementType: 1
+  CostToPlace: 25
 --- !u!61 &9036241418800988465
 BoxCollider2D:
   m_ObjectHideFlags: 0

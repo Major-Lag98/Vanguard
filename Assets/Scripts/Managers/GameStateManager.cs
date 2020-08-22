@@ -44,7 +44,8 @@ public class GameStateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ToDay();
+        currState = State.Day;
+        ToNight();
         
         CropManager.Instance.AddStopSellingCropDelegate(() => { sellingCrops = false; ToDay(); });
     }
