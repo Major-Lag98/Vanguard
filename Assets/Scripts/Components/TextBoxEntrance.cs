@@ -13,16 +13,15 @@ public class TextBoxEntrance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var seq = DOTween.Sequence();
-        var rect = (RectTransform)transform;
-        seq.AppendInterval(1f);
-        seq.Append(DOTween.To(() => rect.anchoredPosition.y,
-            (y) => rect.anchoredPosition = new Vector2(0, y), TargetPosition.y, TransitionTime).SetEase(Ease.OutBack))
-            .AppendInterval(DelayToStartAfterTransition)
-            .OnComplete(() => WriterToStart.StartWriting());
+        //var seq = DOTween.Sequence();
+        //var rect = (RectTransform)transform;
+        //seq.AppendInterval(1f);
+        //seq.Append(DOTween.To(() => rect.anchoredPosition.y,
+        //    (y) => rect.anchoredPosition = new Vector2(0, y), TargetPosition.y, TransitionTime).SetEase(Ease.OutBack))
+        //    .AppendInterval(DelayToStartAfterTransition);
 
-        seq.SetUpdate(true);
-        seq.timeScale = 1;
+        //seq.SetUpdate(true);
+        //seq.timeScale = 1;
     }
 
 }

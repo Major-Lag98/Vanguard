@@ -2,9 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HideAndShowUIElement : MonoBehaviour, IHideableUI
 {
+    [Tooltip("If true, only responds to calling Show() and Hide() from API")]
+    public bool ManualControl = false;
+
     public bool ShowDuringDay;
     public bool ShowDuringNight;
     public bool ShowDuringAttacking;
@@ -22,6 +26,14 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
     [Tooltip("The time the transition takes (if applicable)")]
     public float TimeToTransitionIfNotInstance = 0.4f;
 
+    public Ease ShowEase = Ease.OutSine;
+    public Ease HideEase = Ease.InSine;
+
+    public delegate void OnEventDelegate();
+
+    OnEventDelegate OnHidden;
+    OnEventDelegate OnShowing;
+
     bool hiding;
 
     private void Start()
@@ -31,6 +43,9 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
 
     void GameStateChanged(GameStateManager.State state)
     {
+        if (ManualControl)
+            return;
+
         // Switch on the state that has changed
         switch (state)
         {
@@ -64,10 +79,18 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
         else // Otherwise we transition
         {
             var t = ((RectTransform)transform);
-            DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), PositionToShowAt.y, TimeToTransitionIfNotInstance).SetEase(Ease.OutSine);
+
+            var seq = DOTween.Sequence();
+            seq.Append(DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), PositionToShowAt.y, TimeToTransitionIfNotInstance)
+                .SetEase(ShowEase));
+            seq.OnComplete(() => OnShowing?.Invoke());
+            seq.SetUpdate(true);
+            seq.timeScale = 1;
         }
 
         hiding = false;
+        if(GetComponentInChildren<Button>() is Button button)
+            button.interactable = true;
     }
 
     public void Hide()
@@ -78,14 +101,34 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
         else // Otherwise transition
         {
             var t = ((RectTransform)transform);
-            DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), PostionToHideAt.y, TimeToTransitionIfNotInstance).SetEase(Ease.InSine);
+
+            var seq = DOTween.Sequence();
+            seq.Append(DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), PostionToHideAt.y, TimeToTransitionIfNotInstance)
+                .SetEase(HideEase));
+            seq.OnComplete(() => OnHidden?.Invoke());
+            seq.SetUpdate(true);
+            seq.timeScale = 1;
         }
 
         hiding = true;
+        if (GetComponentInChildren<Button>() is Button button)
+            button.interactable = false;
     }
 
     public void Toggle()
     {
 
     }
+
+    public void AddOnHideDelegate(OnEventDelegate del)
+        => OnHidden += del;
+
+    public void AddOnShowDelegate(OnEventDelegate del)
+        => OnShowing += del;
+
+    public void RemoveOnHideDelegate(OnEventDelegate del)
+        => OnHidden -= del;
+
+    public void RemoveOnShowDelegate(OnEventDelegate del)
+        => OnShowing -= del;
 }

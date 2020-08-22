@@ -45,7 +45,8 @@ public class TextWriter : MonoBehaviour
         if(!TextMeshProTarget)
             TextMeshProTarget = GetComponentInChildren<TextMeshProUGUI>();
 
-        originalText = TextMeshProTarget.text; // cache our text
+        if(originalText == null)
+            originalText = TextMeshProTarget.text; // cache our text
         TextMeshProTarget.text = ""; // Clear the text content of the object
 
         if(AutoStartWriting)

@@ -7,7 +7,7 @@ using UnityEngine;
 public class TextContentManager : MonoBehaviour
 {
     [Tooltip("The text file to use for the TextWriter")]
-    public TextAsset textFile;
+    public List<TextAsset> TextFiles;
     [Tooltip("The target TextMeshPro to provide lines for")]
     public TextMeshProUGUI textMeshPro;
     [Tooltip("The target TextWriter to feed lines to")]
@@ -19,16 +19,50 @@ public class TextContentManager : MonoBehaviour
     private string[] text;
     private int textIter;
 
+    public delegate void ChangedState();
+
+    private ChangedState OnStart;
+    private ChangedState OnEnd;
+
+    public static TextContentManager Instance;
+
     private void Awake()
     {
-        text = textFile.text.Split('\n');
-        textMeshPro.text = text[0]; // Assign the first line to begin with.
+        //text = TextFiles[0].text.Split('\n');
+        //textMeshPro.text = text[0]; // Assign the first line to begin with.
+
+        if(Instance == null)
+            Instance = this;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        //TimeTicker.Instance.SetTimeScale(0); // Pause the game while we are doing this
+
+        DisableOnComplete.GetComponent<HideAndShowUIElement>().AddOnHideDelegate(() => Time.timeScale = 1);
+        DisableOnComplete.GetComponent<HideAndShowUIElement>().AddOnShowDelegate(StartWriter);
+
+        Begin(0);
+    }
+
+    /// <summary>
+    /// Beings a new dialogue
+    /// </summary>
+    /// <param name="index">The index of the file to load</param>
+    public void Begin(int index)
+    {
+        textIter = 0;
+        DisableOnComplete.GetComponent<IHideableUI>()?.Show(); // Show us
         TimeTicker.Instance.SetTimeScale(0); // Pause the game while we are doing this
+        text = TextFiles[index].text.Split('\n');
+        writer.SetTextToWrite(text[0]); // Set the initial text
+    }
+
+    void StartWriter()
+    {
+        
+        writer.StartWriting(); // Start writing
     }
 
     // Update is called once per frame
@@ -51,11 +85,24 @@ public class TextContentManager : MonoBehaviour
                 else                        // Otherwise we should close this UI
                 {
                     TimeTicker.Instance.SetTimeScale(1); // Set to regular time scale
-                    DisableOnComplete.GetComponent<IHideableUI>()?.Hide();
-                    GameStateManager.Instance.SetDay();
                     EnableOnComplete.ForEach(obj => obj.GetComponent<IHideableUI>()?.Show());
+                    DisableOnComplete.GetComponent<IHideableUI>()?.Hide();
+                    OnEnd?.Invoke();
+                    GameStateManager.Instance.SetNight(); //TODO I don't like this here... too coupled
                 }
             }
         }
     }
+
+    public void AddOnStartDelegate(ChangedState del)
+        => OnStart += del;
+
+    public void AddOnEndDelegate(ChangedState del)
+        => OnEnd+= del;
+
+    public void RemoveOnStartDelegate(ChangedState del)
+        => OnStart -= del;
+
+    public void RemoveOnEndDelegate(ChangedState del)
+        => OnEnd -= del;
 }
