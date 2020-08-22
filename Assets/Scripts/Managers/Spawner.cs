@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject prefab;
+    public List<PrefabGroup> prefabList;
     public bool Spawning;
     public int SpawnTickRate = 4;
     public int NumberToSpawn = 10;
     public TextAsset SpawnFile;
 
-    private int counter;
+    private int spawnCounter;
     private string[] waveSpawnOrder; // The string array to hold waves
     private int spawnWaveIndex = -1; // The index to access the waves
     private char[] spawnOrder; // The order of spawns within a wave
@@ -32,13 +33,22 @@ public class Spawner : MonoBehaviour
         if (!Spawning)
             return;
 
-        var obj = Instantiate(prefab, pathmaker.points[0], Quaternion.identity);
+        var spawnType = Convert.ToInt32(spawnOrder[spawnCounter].ToString());
+        var group = prefabList.FirstOrDefault(p => p.id == spawnType);
+
+        if (group.Equals(default(PrefabGroup)))
+            return;
+
+        if (group.prefab == null)
+            Debug.LogWarning("Prefab is null for the Spawner group. This shouldn't happen");
+
+        var obj = Instantiate(group.prefab, pathmaker.points[0], Quaternion.identity);
         obj.GetComponent<Goblin>().SetPoints(pathmaker.points.GetRange(1, pathmaker.points.Count-1).ToArray());
-        counter++;
+        spawnCounter++;
 
         EnemyManager.Instance.goblinList.Add(obj);
 
-        if (counter >= NumberToSpawn)
+        if (spawnCounter >= NumberToSpawn)
             Spawning = false;
     }
 
@@ -56,7 +66,7 @@ public class Spawner : MonoBehaviour
             spawnOrder = waveSpawnOrder[spawnWaveIndex].TrimEnd(Environment.NewLine.ToCharArray()).ToCharArray();
             //TODO Fully implement this
             NumberToSpawn = spawnOrder.Length;
-            counter = 0;
+            spawnCounter = 0;
             return true;
         }
 
