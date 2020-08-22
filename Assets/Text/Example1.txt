@@ -1,4 +1,5 @@
-Hey there! This is text for our new game!
-I am testing out using a text file for content.
-And maybe it works well enough to use.
-Hopefully it does after all this work.
+Hey countryman! 
+I hear your're the new head of the estate.
+Goblins have been spotted in the area scouting.
+Sources tell me that they raid at night to scavange for food.
+Perhaps hire some bowmen to defend your yield.
