@@ -33,9 +33,11 @@ public class GameStateManager : MonoBehaviour
 
     GameStateChangedDelegate gameStateChanged;
 
-    private int DayCycleNumber = 0; // The day we're on
+    private int dayCycleNumber = 0; // The day we're on
 
     public static GameStateManager Instance;
+
+    public int DayCycleNumber { get => dayCycleNumber; private set => dayCycleNumber = value; }
 
     private void Awake()
     {
