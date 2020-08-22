@@ -8,6 +8,8 @@ public class Crop : MonoBehaviour, IPlaceable, IBuyable
 {
     public Grid.GridCellType PlacementType = Grid.GridCellType.Crops;
     public int CreditsAtHarvest = 10;
+
+    [SerializeField]
     public int CostToPlace = 10;
 
     private bool reserved;
