@@ -96,5 +96,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlacementType: 2
-  CreditsAtHarvest: 10
+  CreditsAtHarvest: 7
   CostToPlace: 100
