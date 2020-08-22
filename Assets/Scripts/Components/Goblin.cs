@@ -46,7 +46,6 @@ public class Goblin : MonoBehaviour, IDamageable
             if (crop != null)
             {
                 crop.SetReserved(true);
-                CropManager.Instance.RemoveCrop(crop);
                 targetCrop = crop.gameObject;
                 TimeTicker.Instance.AddOnTimeTickDelegate(MoveToPlant, MoveTickSpeed); // Add the next callback
 
@@ -67,6 +66,7 @@ public class Goblin : MonoBehaviour, IDamageable
         {
             TimeTicker.Instance.RemoveOnTimeTickDelegate(MoveToPlant, MoveTickSpeed);
             TimeTicker.Instance.AddOnTimeTickDelegate(MoveOffScreen, MoveTickSpeed);
+            CropManager.Instance.RemoveCrop(targetCrop.GetComponent<Crop>());
             Destroy(targetCrop.gameObject);
         }
     }
