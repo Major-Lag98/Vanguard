@@ -12,10 +12,13 @@ public class Spawner : MonoBehaviour
     public int NumberToSpawn = 10;
     public TextAsset SpawnFile;
 
-    private int spawnCounter;
-    private string[] waveSpawnOrder; // The string array to hold waves
-    private int spawnWaveIndex = -1; // The index to access the waves
-    private char[] spawnOrder; // The order of spawns within a wave
+    private string[] levels; // Holds the seprate levels
+    private string[] waves; // The string array to hold seprate waves (set for each new level)
+    private char[] waveSpawnOrder; // The order of spawns within a wave
+
+    private int spawnCounter; // How many enemies we've spawned so far
+    private int waveIndex = -1; // The index to access the waves
+    private int levelIndex = -1; // The index for the level
 
     private Pathmaker pathmaker;
 
@@ -25,7 +28,8 @@ public class Spawner : MonoBehaviour
         pathmaker = GetComponent<Pathmaker>(); // Get our pathmaker
         TimeTicker.Instance.AddOnTimeTickDelegate(SpawnGoblin, SpawnTickRate); // Plug us into the time ticker event
 
-        waveSpawnOrder = SpawnFile.text.Split('\n');
+        levels = SpawnFile.text.Split(new string[] { "\r\n\r\n" },
+                               StringSplitOptions.RemoveEmptyEntries);
     }
 
     public void SpawnGoblin(int time)
@@ -33,7 +37,7 @@ public class Spawner : MonoBehaviour
         if (!Spawning)
             return;
 
-        var spawnType = Convert.ToInt32(spawnOrder[spawnCounter].ToString());
+        var spawnType = Convert.ToInt32(waveSpawnOrder[spawnCounter].ToString());
         var group = prefabList.FirstOrDefault(p => p.id == spawnType);
 
         if (group.Equals(default(PrefabGroup)))
@@ -58,16 +62,34 @@ public class Spawner : MonoBehaviour
     /// <returns>True if the wave was prepared, false if there are no more waves available</returns>
     public bool LoadNextWave()
     {
-        spawnWaveIndex++;
+        waveIndex++;
 
-        if(spawnWaveIndex < waveSpawnOrder.Length)
+        if(waveIndex < waves.Length)
         {
-            // The spawn order is the characters from the text line. We make sure to remove any trailing new line characters; \n \r
-            spawnOrder = waveSpawnOrder[spawnWaveIndex].TrimEnd(Environment.NewLine.ToCharArray()).ToCharArray();
-            //TODO Fully implement this
-            NumberToSpawn = spawnOrder.Length;
-            spawnCounter = 0;
+            // Trim the wave of newlines and turn into a char array. This will be our IDs for which enemy to spawn
+            waveSpawnOrder = waves[waveIndex].TrimEnd(Environment.NewLine.ToCharArray()).ToCharArray();
+            NumberToSpawn = waveSpawnOrder.Length; // This is how many to spawn
+            spawnCounter = 0; // Reset our spawn counter
             return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Loads the next level of waves. If it was loaded successfully, returns true. Otherwise false
+    /// </summary>
+    /// <returns>True if loaded. False otherwise</returns>
+    public bool LoadNextLevel()
+    {
+        levelIndex++;
+
+        if (levelIndex < levels.Length)
+        {
+            // Get the current level text and split it by newline. That will be our wave array to access when we start spawning
+            waves = levels[levelIndex].Split(Environment.NewLine.ToCharArray());
+            waves = waves.Where(s => s.Length > 0).ToArray();
+            return true; // Return that we are good
         }
 
         return false;
