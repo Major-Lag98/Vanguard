@@ -24,6 +24,8 @@ public class TextContentManager : MonoBehaviour
     private ChangedState OnStart;
     private ChangedState OnEnd;
 
+    bool active;
+
     public static TextContentManager Instance;
 
     private void Awake()
@@ -52,6 +54,7 @@ public class TextContentManager : MonoBehaviour
     /// <param name="index">The index of the file to load</param>
     public void Begin(int index)
     {
+        active = true;
         textIter = 0;
         DisableOnComplete.GetComponent<IHideableUI>()?.Show(); // Show us
         TimeTicker.Instance.SetTimeScale(0); // Pause the game while we are doing this
@@ -69,7 +72,7 @@ public class TextContentManager : MonoBehaviour
     void Update()
     {
         // If we press space
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && active)
         {
             if (writer.IsWorking()) // If working, skip the working text
                 writer.Skip();
@@ -88,6 +91,7 @@ public class TextContentManager : MonoBehaviour
                     EnableOnComplete.ForEach(obj => obj.GetComponent<IHideableUI>()?.Show());
                     DisableOnComplete.GetComponent<IHideableUI>()?.Hide();
                     OnEnd?.Invoke();
+                    active = false;
 
                     if(GameStateManager.Instance.DayCycleNumber < 1)
                         GameStateManager.Instance.SetNight(); //TODO I don't like this here... too coupled
