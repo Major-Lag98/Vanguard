@@ -2629,7 +2629,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.8151722
+  m_Intensity: 0.7938901
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -3115,7 +3115,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.80383927
+  m_Intensity: 0.8172791
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -4010,8 +4010,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowDuringDay: 1
-  ShowDuringNight: 0
-  ShowDuringAttacking: 0
+  ShowDuringNight: 1
+  ShowDuringAttacking: 1
   InstantShow: 0
   InstantHide: 0
   PositionToShowAt: {x: -618, y: 60, z: 0}
@@ -5831,7 +5831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &691621448
 Transform:
   m_ObjectHideFlags: 0
@@ -7246,7 +7246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &927645755
 Transform:
   m_ObjectHideFlags: 0
@@ -7741,7 +7741,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &983591551
 Transform:
   m_ObjectHideFlags: 0
@@ -10253,7 +10253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1398878590
 Transform:
   m_ObjectHideFlags: 0
@@ -10646,7 +10646,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0045030bda1e55a4eb150a0db12f8c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5728206948978351524, guid: eb318248dba17864a972331cefc5bbe6, type: 3}
+  prefabList:
+  - name: goblin
+    id: 1
+    prefab: {fileID: 5728206948978351524, guid: eb318248dba17864a972331cefc5bbe6, type: 3}
+  - name: goblin2
+    id: 2
+    prefab: {fileID: 5728206948978351524, guid: 86fb1ed4eae0074449477f74e0666d22, type: 3}
   Spawning: 0
   SpawnTickRate: 4
   NumberToSpawn: 0
@@ -11534,7 +11540,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.71805465
+  m_Intensity: 0.79397917
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -12282,7 +12288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1639668550
 Transform:
   m_ObjectHideFlags: 0
@@ -12495,7 +12501,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7735849, g: 0.41334674, b: 0.14960839, a: 1}
-  m_Intensity: 0.76342124
+  m_Intensity: 0.82794607
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -20571,7 +20577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1887864861
 Transform:
   m_ObjectHideFlags: 0
@@ -21724,7 +21730,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2030517803
 Transform:
   m_ObjectHideFlags: 0
@@ -22369,10 +22375,6 @@ PrefabInstance:
     - target: {fileID: 1510292192560594890, guid: 2f6f989fd1853264da882e27b7c17ad2, type: 3}
       propertyPath: m_Name
       value: crop
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510292192560594890, guid: 2f6f989fd1853264da882e27b7c17ad2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f6f989fd1853264da882e27b7c17ad2, type: 3}

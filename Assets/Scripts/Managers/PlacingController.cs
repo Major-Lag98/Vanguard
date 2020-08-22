@@ -8,7 +8,7 @@ using System.Linq;
 //[System.Serializable]
 [ExecuteInEditMode]
 [System.Serializable]
-public class PlacingController : MonoBehaviour
+public partial class PlacingController : MonoBehaviour
 {
     public PrefabGroup[] Prefabs;
 
@@ -159,14 +159,6 @@ public class PlacingController : MonoBehaviour
         {
             this.list = list;
         }
-    }
-
-    [Serializable]
-    public struct PrefabGroup
-    {
-        public string name;
-        public int id;
-        public GameObject prefab;
     }
 
 }
