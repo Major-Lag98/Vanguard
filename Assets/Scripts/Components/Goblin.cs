@@ -18,6 +18,7 @@ public class Goblin : MonoBehaviour, IDamageable
     private AudioSource audioSource;
 
     public float health = 3;
+    public int MoneyOnDeath = 3;
     private bool dead;
 
     // Start is called before the first frame update
@@ -159,6 +160,7 @@ public class Goblin : MonoBehaviour, IDamageable
             // The GameManager has a AudioSource that won't be destroyed we can use
             GameStateManager.Instance.GetComponent<AudioSource>().PlayOneShot(DieSound);
             EnemyManager.Instance.goblinList.Remove(gameObject);
+            PlayerData.Instance.AddCredits(MoneyOnDeath);
             Destroy(gameObject);
             dead = true; // Keep use from calling this again
         }
