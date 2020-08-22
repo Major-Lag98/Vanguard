@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class GameStateManager : MonoBehaviour
     public float Timer; // Used for time of day cycle (buying, planting, placing towers) and night (time between attacks)
     public TextMeshProUGUI TimerText;
     public float TimeToSellCrops = 5f;
+
+    [SerializeField]
+    GameObject deathCanvas;
 
     [SerializeField]
     AudioSource BackgroundAudio;
@@ -178,6 +182,17 @@ public class GameStateManager : MonoBehaviour
         var seconds = Mathf.Clamp(time % 60, 0, 60);
         return $"{minutes}:{seconds:00}";
     }
+
+    void Died()
+    {
+        deathCanvas.SetActive(true);
+    }
+
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 
     public void AddGameStateChangedDelegate(GameStateChangedDelegate del)
         => gameStateChanged += del;
