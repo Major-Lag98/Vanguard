@@ -9,6 +9,8 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
     [Tooltip("If true, only responds to calling Show() and Hide() from API")]
     public bool ManualControl = false;
 
+    public bool StartHidden;
+
     public bool ShowDuringDay;
     public bool ShowDuringNight;
     public bool ShowDuringAttacking;
@@ -39,6 +41,8 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
     private void Start()
     {
         GameStateManager.Instance.AddGameStateChangedDelegate(GameStateChanged);
+        if (StartHidden)
+            Hide();
     }
 
     void GameStateChanged(GameStateManager.State state)
@@ -78,20 +82,16 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
             gameObject.SetActive(true);
         else // Otherwise we transition
         {
-            var t = ((RectTransform)transform);
-
-            var seq = DOTween.Sequence();
-            seq.Append(DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), PositionToShowAt.y, TimeToTransitionIfNotInstance)
-                .SetEase(ShowEase));
-            seq.OnComplete(() => OnShowing?.Invoke());
-            seq.SetUpdate(true);
-            seq.timeScale = 1;
+            Tween(PositionToShowAt.y, () => OnShowing?.Invoke());
+            
         }
 
         hiding = false;
         if(GetComponentInChildren<Button>() is Button button)
             button.interactable = true;
     }
+
+   
 
     public void Hide()
     {
@@ -100,14 +100,7 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
             gameObject.SetActive(false);
         else // Otherwise transition
         {
-            var t = ((RectTransform)transform);
-
-            var seq = DOTween.Sequence();
-            seq.Append(DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), PostionToHideAt.y, TimeToTransitionIfNotInstance)
-                .SetEase(HideEase));
-            seq.OnComplete(() => OnHidden?.Invoke());
-            seq.SetUpdate(true);
-            seq.timeScale = 1;
+            Tween(PostionToHideAt.y, () => OnHidden?.Invoke());
         }
 
         hiding = true;
@@ -118,6 +111,18 @@ public class HideAndShowUIElement : MonoBehaviour, IHideableUI
     public void Toggle()
     {
 
+    }
+
+    void Tween(float targetY, TweenCallback callback)
+    {
+        var t = ((RectTransform)transform);
+
+        var seq = DOTween.Sequence();
+        seq.Append(DOTween.To(() => t.anchoredPosition.y, (y) => t.anchoredPosition = new Vector2(t.anchoredPosition.x, y), targetY, TimeToTransitionIfNotInstance)
+            .SetEase(ShowEase));
+        seq.OnComplete(callback);
+        seq.SetUpdate(true);
+        seq.timeScale = 1;
     }
 
     public void AddOnHideDelegate(OnEventDelegate del)

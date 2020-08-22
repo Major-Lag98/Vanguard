@@ -88,7 +88,9 @@ public class TextContentManager : MonoBehaviour
                     EnableOnComplete.ForEach(obj => obj.GetComponent<IHideableUI>()?.Show());
                     DisableOnComplete.GetComponent<IHideableUI>()?.Hide();
                     OnEnd?.Invoke();
-                    GameStateManager.Instance.SetNight(); //TODO I don't like this here... too coupled
+
+                    if(GameStateManager.Instance.DayCycleNumber < 1)
+                        GameStateManager.Instance.SetNight(); //TODO I don't like this here... too coupled
                 }
             }
         }
