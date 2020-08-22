@@ -92,13 +92,16 @@ public class GameStateManager : MonoBehaviour
                 case State.Attacking:
                     if (!Spawner.Spawning && EnemyManager.Instance.goblinList.Count == 0)
                     {
-                        if (FindObjectsOfType<Crop>().Length == 0)
-                        {
-                            Died(); //we lost all our crops oh noo
-                            return;
-                        }
                         ToNight();
+                        
                     }
+
+                    if (CropManager.Instance.GetCropList().Count == 0)
+                    {
+                        Died(); //we lost all our crops oh noo
+                        return;
+                    }
+
                     break;
             }
         }
