@@ -18,6 +18,8 @@ public class GameStateManager : MonoBehaviour
     public TextMeshProUGUI TimerText;
     public float TimeToSellCrops = 5f;
 
+    bool died = false;
+
     [SerializeField]
     GameObject deathCanvas;
 
@@ -61,34 +63,44 @@ public class GameStateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (currState)
+        if (died == false) 
         {
-            case State.Day:
-                Timer -= Time.deltaTime;
-                if (Timer <= 0)
-                    SetNight();
-                else
+            switch (currState)
+            {
+                case State.Day:
+                    Timer -= Time.deltaTime;
+                    if (Timer <= 0)
+                        SetNight();
+                    else
+                        TimerText.text = FormatTimeText((int)Timer);
+
+                    break;
+
+                case State.Night:
+
+                    Timer -= Time.deltaTime;
                     TimerText.text = FormatTimeText((int)Timer);
 
-                break;
+                    if (!sellingCrops)
+                    {
+                        if (Timer <= 0)
+                            ToAttacking();
+                    }
 
-            case State.Night:
+                    break;
 
-                Timer -= Time.deltaTime;
-                TimerText.text = FormatTimeText((int)Timer);
-
-                if (!sellingCrops)
-                {
-                    if (Timer <= 0)
-                        ToAttacking();
-                }
-
-                break;
-
-            case State.Attacking:
-                if (!Spawner.Spawning && EnemyManager.Instance.goblinList.Count == 0)
-                    ToNight();
-                break;
+                case State.Attacking:
+                    if (!Spawner.Spawning && EnemyManager.Instance.goblinList.Count == 0)
+                    {
+                        if (FindObjectsOfType<Crop>().Length == 0)
+                        {
+                            Died(); //we lost all our crops oh noo
+                            return;
+                        }
+                        ToNight();
+                    }
+                    break;
+            }
         }
     }
 
@@ -100,6 +112,7 @@ public class GameStateManager : MonoBehaviour
         // Load the next wave when we go into night state. If loaded properly, we can proceed normally
         if (Spawner.LoadNextWave())
         {
+            
             Timer = TimeBetweenAttacks; // Reset our timer
             if (currState == State.Day) // If we're coming from day, go straight to attacking
                 ToAttacking();
@@ -185,6 +198,7 @@ public class GameStateManager : MonoBehaviour
 
     void Died()
     {
+        died = true;
         deathCanvas.SetActive(true);
     }
 
