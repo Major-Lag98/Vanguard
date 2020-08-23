@@ -10142,9 +10142,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '25
-
-'
+  m_text: 20
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b4bf7d5f7e375f94cbfdf3c89c13fa64, type: 2}
   m_sharedMaterial: {fileID: -6620037431044517903, guid: b4bf7d5f7e375f94cbfdf3c89c13fa64, type: 2}
@@ -23452,7 +23450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreditText: {fileID: 145462774}
   TweenTime: 0.5
-  credits: 35
+  credits: 45
 --- !u!82 &1916858029
 AudioSource:
   m_ObjectHideFlags: 0
