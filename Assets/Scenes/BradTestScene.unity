@@ -6670,6 +6670,7 @@ MonoBehaviour:
   TextFiles:
   - {fileID: 4900000, guid: 541dfdbbfd92fa54989066c9b9113767, type: 3}
   - {fileID: 4900000, guid: f58156dba73fd7544b1f7ac311d68ad8, type: 3}
+  - {fileID: 4900000, guid: ba009c05838b05c4494a2893a3408526, type: 3}
   textMeshPro: {fileID: 227753407}
   writer: {fileID: 587835275}
   DisableOnComplete: {fileID: 691915520}
@@ -10954,7 +10955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1171372863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23950,6 +23951,7 @@ MonoBehaviour:
   TimerText: {fileID: 1154349676}
   TimeToSellCrops: 5
   deathCanvas: {fileID: 813946952}
+  victoryCanvas: {fileID: 1171372862}
   BackgroundAudio: {fileID: 1916858030}
   TimeBetweenAttacks: 30
   TimeForDayCycle: 60
