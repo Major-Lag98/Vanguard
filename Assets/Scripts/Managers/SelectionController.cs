@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelectionController : MonoBehaviour
 {
     public GameObject SelectionRectPrefab;
+    public GameObject UpgradeButton;
 
     private GameObject selected;
     private ISelectable selectable;
@@ -25,7 +27,19 @@ public class SelectionController : MonoBehaviour
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
-            Select(null);
+        {
+            var corners = new Vector3[4];
+            ((RectTransform)UpgradeButton.transform).GetWorldCorners(corners);
+            Rect newRect = new Rect(corners[0], corners[2] - corners[0]);
+
+            var rect = ((RectTransform)UpgradeButton.transform).rect;
+            var mouse = Input.mousePosition;
+            var mouse2 = Camera.main.ScreenToViewportPoint(mouse);
+            var mouse3 = Camera.main.ScreenToWorldPoint(new Vector3(mouse.x, mouse.y, 10));
+
+            if (!newRect.Contains(mouse3))
+                Select(null);
+        }
     }
 
     public void Select(GameObject selected)
@@ -40,6 +54,7 @@ public class SelectionController : MonoBehaviour
             this.selected = null; // Clear our selected
             selectionRect.transform.parent = null; // Clear the rect's parent
             selectionRect.SetActive(false); // Disable the rect
+            UpgradeButton.SetActive(false); // Disable the upgrade button
             return;
         }
 
@@ -49,6 +64,32 @@ public class SelectionController : MonoBehaviour
         selectionRect.SetActive(true);
         selectionRect.transform.parent = selected.transform;
         selectionRect.transform.localPosition = new Vector3(0, 0, -5);
+
+        // If the selected thing has the ability to upgrade
+        if(selected.GetComponent<IUpgradeable>() is IUpgradeable upgradeable)
+        {
+            // Clear listeners
+            UpgradeButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+            // Add a listener that tries to upgrade
+            UpgradeButton.GetComponentInChildren<Button>().onClick.AddListener(() => TryToUpgrade(upgradeable));
+
+            //Move and display the upgrade button next to the object
+            UpgradeButton.SetActive(true);
+            UpgradeButton.transform.position = selected.transform.position + new Vector3(0,-1,0);
+
+        }
+    }
+
+    void TryToUpgrade(IUpgradeable upgradeable)
+    {
+        // If we have enough money
+        if (upgradeable.CanUpgrade() && PlayerData.Instance.CanAfford(upgradeable.GetUpgradeCost()))
+        {
+            //Upgrade
+            upgradeable.Upgrade();
+            //Spend the money
+            PlayerData.Instance.Spend(upgradeable.GetUpgradeCost());
+        }
     }
 
    
