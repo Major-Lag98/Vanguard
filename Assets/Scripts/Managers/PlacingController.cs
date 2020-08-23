@@ -25,6 +25,9 @@ public class PlacingController : MonoBehaviour
     [SerializeField]
     GameObject ghostTower;
 
+    [SerializeField]
+    GameObject ghostPlant;
+
     GameObject ghost;
 
     bool ghostInstantiated = false;
@@ -89,8 +92,10 @@ public class PlacingController : MonoBehaviour
             Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
         }
 
-        if (currPlacing == Prefabs.FirstOrDefault(p => p.name == "tower").prefab && IsPlacing())//check if were placing a tower so we can have a ghost to show when placing
+        if (IsPlacing())//check if were placing a tower so we can have a ghost to show when placing
         {
+            var name = Prefabs.First(p => p.prefab == currPlacing).name;
+
             //Debug.Log("Placing Tower");
             Vector3 spawnPosition = UtilsClass.GetMouseWorldPosition();
             spawnPosition = ValidateWorldGridPosition(spawnPosition);
@@ -98,7 +103,7 @@ public class PlacingController : MonoBehaviour
 
             if (ghostInstantiated == false)
             {
-                ghost = Instantiate(ghostTower);
+                ghost = name == "tower" ? Instantiate(ghostTower) : Instantiate(ghostPlant);
                 ghostInstantiated = true;
             }
             // ghost.SetActive(true);
