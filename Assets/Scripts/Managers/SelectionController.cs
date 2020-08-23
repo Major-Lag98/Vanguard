@@ -31,6 +31,19 @@ public class SelectionController : MonoBehaviour
             if (!IsOverUpgradeWindow())
                 Select(null);
         }
+
+        if(Input.GetKeyUp(KeyCode.Delete) && selected != null)
+        {
+            if(selected.GetComponent<IPlaceable>() is IPlaceable placeable && selected.GetComponent<IBuyable>() is IBuyable buyable)
+            {
+                Grid.Instance.GetXY(selected.transform.position, out int x, out int y); // Get grid X and Y
+                placeable.Remove(x, y); // Remove it from the grid
+                PlayerData.Instance.AddCredits(buyable.GetCost()); // Refund the cost
+                Select(null);
+                Destroy(selected); // Destroy the object
+            }
+           
+        }
     }
 
     bool IsOverUpgradeWindow()
@@ -45,7 +58,7 @@ public class SelectionController : MonoBehaviour
         return newRect.Contains(mouse3); // Check if the mouse is inside
     }
 
-    public void Select(GameObject selected)
+    public void Select(GameObject selectedObject)
     {
         // If we're clicking upgrade, return early.
         if (IsOverUpgradeWindow())
@@ -60,38 +73,54 @@ public class SelectionController : MonoBehaviour
             return;
 
         // If incoming object is null, clear everything
-        if (selected == null)
+        if (selectedObject == null)
         {
-            this.selected = null; // Clear our selected
-            selectionRect.transform.parent = null; // Clear the rect's parent
-            selectionRect.SetActive(false); // Disable the rect
-            UpgradeButton.SetActive(false); // Disable the upgrade button
-            UpgradeButton.transform.position = new Vector3(1000, 1000);
+            HideUpgradeWindow();
             return;
         }
 
+        DisplaySelectionRect(selectedObject);
+
+        // If the selected thing has the ability to upgrade
+        if (selectedObject.GetComponent<IUpgradeable>() is IUpgradeable upgradeable)
+            DisplayUpgradeWindow(upgradeable);
+    }
+
+    void HideUpgradeWindow()
+    {
+        selectionRect.transform.parent = null; // Clear the rect's parent
+        selectionRect.SetActive(false); // Disable the rect
+        UpgradeButton.SetActive(false); // Disable the upgrade button
+        UpgradeButton.transform.position = new Vector3(1000, 1000);
+    }
+
+    void DisplaySelectionRect(GameObject selectedObject)
+    {
         // Then hook us up with the current stuff
-        this.selected = selected;
+        this.selected = selectedObject;
         this.selectable = selected.GetComponent<ISelectable>();
         selectionRect.SetActive(true);
         selectionRect.transform.parent = selected.transform;
         selectionRect.transform.localPosition = new Vector3(0, 0, -5);
+    }
 
-        // If the selected thing has the ability to upgrade
-        if(selected.GetComponent<IUpgradeable>() is IUpgradeable upgradeable)
-        {
-            // Clear listeners
-            UpgradeButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
-            // Add a listener that tries to upgrade
-            UpgradeButton.GetComponentInChildren<Button>().onClick.AddListener(() => TryToUpgrade(upgradeable));
+    void HideSelectionRect()
+    {
 
-            UpgradeButton.transform.GetChild(0).Find("Price").GetComponent<TMPro.TextMeshProUGUI>().text = upgradeable.GetUpgradeCost().ToString();
+    }
 
-            //Move and display the upgrade button next to the object
-            UpgradeButton.SetActive(true);
-            UpgradeButton.transform.position = selected.transform.position + new Vector3(0,-1,0);
+    void DisplayUpgradeWindow(IUpgradeable upgradeable)
+    {
+        // Clear listeners
+        UpgradeButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+        // Add a listener that tries to upgrade
+        UpgradeButton.GetComponentInChildren<Button>().onClick.AddListener(() => TryToUpgrade(upgradeable));
 
-        }
+        UpgradeButton.transform.GetChild(0).Find("Price").GetComponent<TMPro.TextMeshProUGUI>().text = upgradeable.GetUpgradeCost().ToString();
+
+        //Move and display the upgrade button next to the object
+        UpgradeButton.SetActive(true);
+        UpgradeButton.transform.position = selected.transform.position + new Vector3(0, -1, 0);
     }
 
     void TryToUpgrade(IUpgradeable upgradeable)
