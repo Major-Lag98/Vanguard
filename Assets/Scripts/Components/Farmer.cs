@@ -54,6 +54,14 @@ public class Farmer : MonoBehaviour
 
         MoveFreeTowardsTarget(Home.position);
 
+        // If we're moving home but we have another crop to place
+        if (CropManager.Instance.HasNextGhostPlant())
+        {
+            TimeTicker.Instance.RemoveOnTimeTickDelegate(MoveToHome, MoveTickSpeed);
+            StartPlanting();
+            return;
+        }
+
         if (Vector2.Distance(new Vector2(transform.position.x, transform.position.y),
             new Vector2(Home.position.x, Home.position.y)) < 0.2f)
         {
