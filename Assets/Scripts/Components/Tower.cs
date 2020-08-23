@@ -51,10 +51,32 @@ public class Tower : MonoBehaviour, IPlaceable, ISelectable, IBuyable, IUpgradea
             fired = false;
             return;
         }
-        
-        var enemy = EnemyManager.Instance.GetClosestEnemy(transform.position, range);
-        
+       
+        // Get a list of enemies sorted by distance
+        var list = EnemyManager.Instance.GetSortedByClosestList(transform.position);
 
+        if (list.Count > 0)
+        {
+            // We need to make sure to not go out of the list range so we clamp here
+            var num = Mathf.Clamp(stats.ExtraTargets, 0, list.Count-1);
+
+            // Loop over number of attacks and try to attack
+            for (var i = 0; i <= num; i++)
+            {
+                var enemy = list[i];
+                // Check if the closest enemy is within range
+                if (Vector2.Distance(new Vector2(transform.position.x, transform.position.y), new Vector2(enemy.transform.position.x, enemy.transform.position.y)) > range)
+                    enemy = null; // If not, set to null
+
+                ShootAtEnemy(enemy); // shoot
+            }
+        }
+
+        fired = true;
+    }
+
+    void ShootAtEnemy(GameObject enemy)
+    {
         if (!enemy)
             return;
 
@@ -63,8 +85,6 @@ public class Tower : MonoBehaviour, IPlaceable, ISelectable, IBuyable, IUpgradea
         arrow.Damage = stats.AttackDamage;
         arrow.targetPosition = enemy.transform.position;
         arrow.enemy = enemy.GetComponent<Goblin>();
-
-        fired = true;
     }
 
     public bool CanBePlaced(int gridCellType)

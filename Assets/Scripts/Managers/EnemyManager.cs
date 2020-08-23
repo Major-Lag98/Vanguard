@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -33,5 +34,11 @@ public class EnemyManager : MonoBehaviour
             }
         }
         return closest;
+    }
+
+    public List<GameObject> GetSortedByClosestList(Vector3 fromPosition)
+    {
+        var list = goblinList.OrderBy(g => Vector2.Distance(new Vector2(fromPosition.x, fromPosition.y), new Vector2(g.transform.position.x, g.transform.position.y)));
+        return list.ToList();
     }
 }
