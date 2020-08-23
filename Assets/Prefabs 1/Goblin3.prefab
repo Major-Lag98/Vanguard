@@ -100,8 +100,8 @@ MonoBehaviour:
   MoveTickSpeed: 2
   HitSound: {fileID: 8300000, guid: 9f835d11a506f7b4a87d07311b5667d0, type: 3}
   DieSound: {fileID: 8300000, guid: 310b876291affe24da97af02e4dcebd3, type: 3}
-  health: 25
-  MoneyOnDeath: 14
+  health: 35
+  MoneyOnDeath: 10
 --- !u!82 &5921378839995994318
 AudioSource:
   m_ObjectHideFlags: 0
