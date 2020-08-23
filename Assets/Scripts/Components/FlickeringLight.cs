@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 
-[ExecuteAlways]
 public class FlickeringLight : MonoBehaviour
 {
     [Range(0,1)]
