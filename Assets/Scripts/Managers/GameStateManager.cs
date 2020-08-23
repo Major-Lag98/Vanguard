@@ -22,6 +22,8 @@ public class GameStateManager : MonoBehaviour
 
     [SerializeField]
     GameObject deathCanvas;
+    [SerializeField]
+    GameObject victoryCanvas;
 
     [SerializeField]
     AudioSource BackgroundAudio;
@@ -154,8 +156,19 @@ public class GameStateManager : MonoBehaviour
         currState = State.Day;
         gameStateChanged?.Invoke(currState);
 
+        // Hardcoded second tutorial
         if (DayCycleNumber == 1)
             TextContentManager.Instance.Begin(1);
+
+        // If we don't have another level, we are victorious
+        if (!Spawner.Instance.HasNextLevel()) 
+        {
+            // Start our textcontentmanager
+            TextContentManager.Instance.Begin(2);
+
+            // Display our canvas on victory and pause
+            TextContentManager.Instance.AddOnEndDelegate(() => { victoryCanvas.SetActive(true); Time.timeScale = 0; });
+        }
     }
 
     /// <summary>
