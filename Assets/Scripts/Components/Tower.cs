@@ -110,6 +110,7 @@ public class Tower : MonoBehaviour, IPlaceable, ISelectable, IBuyable, IUpgradea
     {
         // Set the grid back to our original type.
         Grid.Instance.SetValue(x, y, GetPlacementType());
+        TimeTicker.Instance.RemoveOnTimeTickDelegate(Fire, 1);
     }
 
     private void OnDestroy()
