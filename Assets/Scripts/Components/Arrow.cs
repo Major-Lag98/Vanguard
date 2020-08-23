@@ -12,6 +12,8 @@ public class Arrow : MonoBehaviour
 
     public Goblin enemy = null;
 
+    public int Damage = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +35,7 @@ public class Arrow : MonoBehaviour
         {
             if (enemy != null)
             {
-                enemy.Damage(1);
+                enemy.Damage(Damage);
                 enemy.Hit(angle);
             }
 
