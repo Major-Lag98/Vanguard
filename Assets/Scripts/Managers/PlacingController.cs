@@ -22,6 +22,8 @@ public class PlacingController : MonoBehaviour
 
     GameObject currPlacing;
 
+    string placingName;
+
     [SerializeField]
     GameObject ghostTower;
 
@@ -72,8 +74,7 @@ public class PlacingController : MonoBehaviour
                 var cost = currPlacing.GetComponent<IBuyable>().GetCost(); // Get the cost from the thing
                 if (PlayerData.Instance.CanAfford(cost)) // Check if we can afford
                 {
-                    SpawnPrefab(currPlacing); //Spawn the prefab
-                    PlayerData.Instance.Spend(cost); // Subtract the cost
+                    Place(placingType, cost);
                 }
                 
             }
@@ -81,6 +82,7 @@ public class PlacingController : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(1)) // CLear our placing on right click
         {
+            ClearGhost();
             SetPlacing("");
         }
         else if (Input.GetKeyDown(KeyCode.B))
@@ -110,16 +112,11 @@ public class PlacingController : MonoBehaviour
             ghost.transform.position = spawnPosition;
 
         }
-        else if (ghost)
-        {
-            Destroy(ghost);
-            ghostInstantiated = false;
-        }
     }
 
     public void SetPlacing(string placingName)
     {
-
+        this.placingName = placingName;
         // If the incoming name is empty or null, set our currPlacing to null
         if (placingName.Length == 0 || placingName == null)
             currPlacing = null;
@@ -138,6 +135,27 @@ public class PlacingController : MonoBehaviour
 
     public bool IsPlacing() => currPlacing != null;
 
+
+    void Place(int placingType, int cost)
+    {
+        if (placingType == (int)Grid.GridCellType.Tower)
+            SpawnPrefab(currPlacing); //Spawn the prefab
+
+        PlayerData.Instance.Spend(cost); // Subtract the cost
+
+        if (placingName == "crop")
+        {
+            CropManager.Instance.AddGhostCrop(ghost);
+            ghost = null;
+            ghostInstantiated = false;
+        }
+    }
+
+    void ClearGhost()
+    {
+        Destroy(ghost);
+        ghostInstantiated = false;
+    }
 
     private void SpawnPrefab(GameObject obj)
     {

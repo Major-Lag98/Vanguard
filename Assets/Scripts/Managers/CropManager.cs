@@ -7,6 +7,8 @@ public class CropManager : MonoBehaviour
 {
     public float TimeToSellCrops;
     public GameObject CropCoin;
+    public Farmer FarmerGuy;
+    public GameObject CropPrefab;
 
     public delegate void OnSellingCropsEventDelegate();
 
@@ -17,6 +19,8 @@ public class CropManager : MonoBehaviour
     public static CropManager Instance;
 
     private List<Crop> cropList = new List<Crop>();
+
+    private Queue<GameObject> ghostCropQueue = new Queue<GameObject>();
 
     private AudioSource audioSource;
 
@@ -30,16 +34,9 @@ public class CropManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void CreateCropAtLocation(Vector3 worldPos)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+       Instantiate(CropPrefab, worldPos, Quaternion.identity);
     }
 
     public void AddCrop(Crop crop)
@@ -64,6 +61,20 @@ public class CropManager : MonoBehaviour
     {
         StartCoroutine(SellCropsCoroutine());
     }
+
+    public void AddGhostCrop(GameObject ghost)
+    {
+        ghostCropQueue.Enqueue(ghost);
+        if (!FarmerGuy.IsActive())
+            FarmerGuy.StartPlanting();
+    }
+       
+
+    public GameObject GetNextGhostCrop()
+        => ghostCropQueue.Count > 0 ? ghostCropQueue.Dequeue() : null;
+
+    public bool HasNextGhostPlant()
+        => ghostCropQueue.Count > 0;
 
     /// <summary>
     /// Sells each crop (with an animation) adding credits to the player
@@ -111,6 +122,8 @@ public class CropManager : MonoBehaviour
         seq.Append(crop.transform.DOMoveY(origY - 0.25f, 0.1f).SetEase(Ease.Linear))
             .Append(crop.transform.DOMoveY(origY, 0.1f).SetEase(Ease.Linear));
     }
+
+    
 
     public void AddStartSellingCropDelegate(OnSellingCropsEventDelegate del)
         => OnStartSellingCrops += del;
