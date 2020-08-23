@@ -96,4 +96,15 @@ public class Spawner : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// </summary>
+    /// <returns>True if there is another level past the current. False otherwise</returns>
+    public bool HasNextLevel()
+     => levelIndex < levels.Length;
+
+    /// <summary>
+    /// </summary>
+    /// <returns>True if there is another wave past the current, false otherwise.</returns>
+    public bool HasNextWave()
+     => waveIndex < waves.Length;
 }
