@@ -12230,6 +12230,18 @@ MonoBehaviour:
   - name: goblin2
     id: 2
     prefab: {fileID: 5728206948978351524, guid: 86fb1ed4eae0074449477f74e0666d22, type: 3}
+  - name: goblin3
+    id: 3
+    prefab: {fileID: 5728206948978351524, guid: 7cfa5dc75c1b4d34d8a1f6ce2d8446de, type: 3}
+  - name: goblin4
+    id: 4
+    prefab: {fileID: 5728206948978351524, guid: 7a8e65d10c1f55b4bb5cca544d1124db, type: 3}
+  - name: goblin5
+    id: 5
+    prefab: {fileID: 5728206948978351524, guid: c552ab3159eed90478dc7b421355935e, type: 3}
+  - name: goblin6
+    id: 6
+    prefab: {fileID: 5728206948978351524, guid: 89addf001c7e9a24e8591bca3add1e6a, type: 3}
   Spawning: 0
   SpawnTickRate: 4
   NumberToSpawn: 0
