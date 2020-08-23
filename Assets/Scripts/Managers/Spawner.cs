@@ -89,6 +89,7 @@ public class Spawner : MonoBehaviour
             // Get the current level text and split it by newline. That will be our wave array to access when we start spawning
             waves = levels[levelIndex].Split(Environment.NewLine.ToCharArray());
             waves = waves.Where(s => s.Length > 0).ToArray();
+            waveIndex = -1;
             return true; // Return that we are good
         }
 
