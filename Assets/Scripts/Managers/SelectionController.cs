@@ -28,26 +28,34 @@ public class SelectionController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            var corners = new Vector3[4];
-            ((RectTransform)UpgradeButton.transform).GetWorldCorners(corners);
-            Rect newRect = new Rect(corners[0], corners[2] - corners[0]);
-
-            var rect = ((RectTransform)UpgradeButton.transform).rect;
-            var mouse = Input.mousePosition;
-            var mouse2 = Camera.main.ScreenToViewportPoint(mouse);
-            var mouse3 = Camera.main.ScreenToWorldPoint(new Vector3(mouse.x, mouse.y, 10));
-
-            if (!newRect.Contains(mouse3))
+            if (!IsOverUpgradeWindow())
                 Select(null);
         }
     }
 
+    bool IsOverUpgradeWindow()
+    {
+        var corners = new Vector3[4]; // Initialize array of 4
+        ((RectTransform)UpgradeButton.transform).GetWorldCorners(corners); // Populate the array here
+        Rect newRect = new Rect(corners[0], corners[2] - corners[0]); // Make a world rect
+
+        var mouse = Input.mousePosition;
+        var mouse3 = Camera.main.ScreenToWorldPoint(new Vector3(mouse.x, mouse.y, 10));
+
+        return newRect.Contains(mouse3); // Check if the mouse is inside
+    }
+
     public void Select(GameObject selected)
     {
+        // If we're clicking upgrade, return early.
+        if (IsOverUpgradeWindow())
+            return;
+
         // If our previous selected is not null, deselect it
         if (this.selected != null)
             this.selectable.Deselect();
 
+        // If we're placing, don't select but do let the above deselect happen
         if (PlacingController.Instance.IsPlacing())
             return;
 
@@ -58,6 +66,7 @@ public class SelectionController : MonoBehaviour
             selectionRect.transform.parent = null; // Clear the rect's parent
             selectionRect.SetActive(false); // Disable the rect
             UpgradeButton.SetActive(false); // Disable the upgrade button
+            UpgradeButton.transform.position = new Vector3(1000, 1000);
             return;
         }
 
