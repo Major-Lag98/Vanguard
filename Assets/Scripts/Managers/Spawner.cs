@@ -22,6 +22,8 @@ public class Spawner : MonoBehaviour
 
     private Pathmaker pathmaker;
 
+    public static Spawner Instance;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,9 @@ public class Spawner : MonoBehaviour
 
         levels = SpawnFile.text.Split(new string[] { "\r\n\r\n" },
                                StringSplitOptions.RemoveEmptyEntries);
+
+        if(Instance == null)
+            Instance = this;
     }
 
     public void SpawnGoblin(int time)
@@ -100,7 +105,7 @@ public class Spawner : MonoBehaviour
     /// </summary>
     /// <returns>True if there is another level past the current. False otherwise</returns>
     public bool HasNextLevel()
-     => levelIndex < levels.Length;
+     => levelIndex + 1 < levels.Length;
 
     /// <summary>
     /// </summary>
