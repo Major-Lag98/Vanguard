@@ -6,9 +6,8 @@ using System;
 using System.Linq;
 
 //[System.Serializable]
-[ExecuteInEditMode]
 [System.Serializable]
-public partial class PlacingController : MonoBehaviour
+public class PlacingController : MonoBehaviour
 {
     public PrefabGroup[] Prefabs;
 
