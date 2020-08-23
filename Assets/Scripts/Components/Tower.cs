@@ -4,8 +4,11 @@ using UnityEngine;
 using CodeMonkey.Utils;
 using System;
 
-public class Tower : MonoBehaviour, IPlaceable, ISelectable, IBuyable
+public class Tower : MonoBehaviour, IPlaceable, ISelectable, IBuyable, IUpgradeable
 {
+
+    [SerializeField]
+    List<Upgrade> upgradeList;
 
     [SerializeField]
     GameObject Arrow;
@@ -22,12 +25,23 @@ public class Tower : MonoBehaviour, IPlaceable, ISelectable, IBuyable
 
     Tuple<int, int> gridIndex;
 
+    private Upgrade stats;
+    private int currUpgradeLevel;
+
+    private GameObject rank1, rank2, rank3;
+
     private void Start()
     {
         TimeTicker.Instance.AddOnTimeTickDelegate(Fire, 1);
 
         Grid.Instance.GetXY(transform.position, out var xIndex, out var yIndex);
         Place(xIndex, yIndex);
+
+        stats = upgradeList[0];
+
+        rank1 = transform.Find("Rank1").gameObject;
+        rank2 = transform.Find("Rank2").gameObject;
+        rank3 = transform.Find("Rank3").gameObject;
     }
 
     public void Fire(int time)
@@ -46,6 +60,7 @@ public class Tower : MonoBehaviour, IPlaceable, ISelectable, IBuyable
 
         GameObject projectile = Instantiate(Arrow, transform.position, Quaternion.identity);
         var arrow = projectile.GetComponent<Arrow>();
+        arrow.Damage = stats.AttackDamage;
         arrow.targetPosition = enemy.transform.position;
         arrow.enemy = enemy.GetComponent<Goblin>();
 
@@ -100,5 +115,46 @@ public class Tower : MonoBehaviour, IPlaceable, ISelectable, IBuyable
     public int GetCost()
     {
         return CostToPlace;
+    }
+
+    public int GetUpgradeCost()
+    {
+        // If we can upgrade, then the cost is the next level. Otherwise return -1 to signify invalid
+        var cost = CanUpgrade() ? upgradeList[currUpgradeLevel + 1].Cost : -1;
+        return cost;
+    }
+
+    public bool CanUpgrade()
+    {
+        // True if we aren't max upgrades yet
+        return currUpgradeLevel < upgradeList.Count - 1;
+    }
+
+    public bool Upgrade()
+    {
+        // Assign us the next upgrade
+        stats = upgradeList[++currUpgradeLevel];
+
+        switch (currUpgradeLevel)
+        {
+            case 1:
+                rank1.SetActive(true);
+                rank2.SetActive(false);
+                rank3.SetActive(false);
+                break;
+            case 2:
+                rank1.SetActive(false);
+                rank2.SetActive(true);
+                rank3.SetActive(false);
+                break;
+            case 3:
+                rank1.SetActive(false);
+                rank2.SetActive(false);
+                rank3.SetActive(true);
+                break;
+        }
+
+
+        return true;
     }
 }
