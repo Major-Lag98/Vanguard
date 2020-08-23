@@ -48,6 +48,9 @@ public class SelectionController : MonoBehaviour
         if (this.selected != null)
             this.selectable.Deselect();
 
+        if (PlacingController.Instance.IsPlacing())
+            return;
+
         // If incoming object is null, clear everything
         if (selected == null)
         {
