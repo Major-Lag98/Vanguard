@@ -561,15 +561,15 @@ MonoBehaviour:
     AttackDamage: 1
     ExtraAttacks: 0
     ExtraTargets: 0
-  - Cost: 0
+  - Cost: 17
     AttackDamage: 2
     ExtraAttacks: 0
     ExtraTargets: 0
-  - Cost: 0
+  - Cost: 30
     AttackDamage: 3
     ExtraAttacks: 0
     ExtraTargets: 0
-  - Cost: 0
+  - Cost: 50
     AttackDamage: 4
     ExtraAttacks: 0
     ExtraTargets: 0

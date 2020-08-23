@@ -76,6 +76,8 @@ public class SelectionController : MonoBehaviour
             // Add a listener that tries to upgrade
             UpgradeButton.GetComponentInChildren<Button>().onClick.AddListener(() => TryToUpgrade(upgradeable));
 
+            UpgradeButton.transform.GetChild(0).Find("Price").GetComponent<TMPro.TextMeshProUGUI>().text = upgradeable.GetUpgradeCost().ToString();
+
             //Move and display the upgrade button next to the object
             UpgradeButton.SetActive(true);
             UpgradeButton.transform.position = selected.transform.position + new Vector3(0,-1,0);
@@ -88,10 +90,16 @@ public class SelectionController : MonoBehaviour
         // If we have enough money
         if (upgradeable.CanUpgrade() && PlayerData.Instance.CanAfford(upgradeable.GetUpgradeCost()))
         {
-            //Upgrade
-            upgradeable.Upgrade();
             //Spend the money
             PlayerData.Instance.Spend(upgradeable.GetUpgradeCost());
+
+            //Upgrade
+            upgradeable.Upgrade();
+
+            var cost = upgradeable.GetUpgradeCost();
+            var text = cost >= 0 ? cost.ToString() : "-";
+            UpgradeButton.transform.GetChild(0).Find("Price").GetComponent<TMPro.TextMeshProUGUI>().text = text;
+
         }
     }
 
