@@ -28,7 +28,7 @@ public class TimeTicker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        counter += Time.deltaTime*4;
+        counter += Time.deltaTime*2;
         tick.Value = (int)counter;
     }
 
