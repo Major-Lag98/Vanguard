@@ -39,7 +39,7 @@ public class Spawner : MonoBehaviour
 
     public void SpawnGoblin(int time)
     {
-        if (!Spawning)
+        if (!Spawning || spawnCounter >= waveSpawnOrder.Length)
             return;
 
         var spawnType = Convert.ToInt32(waveSpawnOrder[spawnCounter].ToString());
