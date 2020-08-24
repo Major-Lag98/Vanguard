@@ -35,7 +35,6 @@ public class TimeTicker : MonoBehaviour
     void CallDelegates(int currGameTick, Dictionary<int, OnTimeTickDelegate> map)
     {
         List<int> keyList = new List<int>(map.Keys);
-        Debug.Log($"currtick is {currGameTick}");
 
         foreach (int tick in keyList) // For each 'tick' in the map
         {
