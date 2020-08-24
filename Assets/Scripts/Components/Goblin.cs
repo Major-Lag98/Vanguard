@@ -131,6 +131,9 @@ public class Goblin : MonoBehaviour, IDamageable
 
     public void Hit(float angle)
     {
+        if (dead)
+            return;
+
         var speed = 0.05f;
         var scale = 0.3f;
 
