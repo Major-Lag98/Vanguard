@@ -9,8 +9,6 @@ public class TimeTicker : MonoBehaviour
 
     private Dictionary<int, OnTimeTickDelegate> delegateMap = new Dictionary<int, OnTimeTickDelegate>();
 
-    private float lastTime;
-
     public static TimeTicker Instance;
 
     private float counter;
@@ -23,7 +21,6 @@ public class TimeTicker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lastTime = Time.time;
     }
 
     // Update is called once per frame
@@ -32,9 +29,8 @@ public class TimeTicker : MonoBehaviour
         counter += Time.deltaTime;
         if(counter >= 1) // Every second that passes
         {
-            lastTime = Time.time; // Set last time to the current time
             CallDelegates(Time.time, delegateMap); // Call our delegates
-            counter -= 1;
+            counter = 0;
         }
     }
 
