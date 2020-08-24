@@ -12,6 +12,7 @@ public class TimeTicker : MonoBehaviour
     public static TimeTicker Instance;
 
     private float counter;
+    private Observable<int> tick = new Observable<int>();
 
     private void Awake()
     {
@@ -21,28 +22,25 @@ public class TimeTicker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tick.OnChanged += (obj, oldTick, newTick) => CallDelegates(newTick, delegateMap);
     }
 
     // Update is called once per frame
     void Update()
     {
-        counter += Time.deltaTime;
-        if(counter >= 1) // Every second that passes
-        {
-            CallDelegates(Time.time, delegateMap); // Call our delegates
-            counter = 0;
-        }
+        counter += Time.deltaTime*4;
+        tick.Value = (int)counter;
     }
 
-    void CallDelegates(float time, Dictionary<int, OnTimeTickDelegate> map)
+    void CallDelegates(int currGameTick, Dictionary<int, OnTimeTickDelegate> map)
     {
         List<int> keyList = new List<int>(map.Keys);
+        Debug.Log($"currtick is {currGameTick}");
 
         foreach (int tick in keyList) // For each 'tick' in the map
         {
-            var t = (int)time;
-            if (t % tick == 0) // If it's time to call
-                map[tick]?.Invoke((int)time); // call
+            if (currGameTick % tick == 0) // If it's time to call
+                map[tick]?.Invoke(currGameTick); // call
         }
     }
 
