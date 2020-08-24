@@ -42,8 +42,11 @@ public class Spawner : MonoBehaviour
         if (!Spawning || spawnCounter >= waveSpawnOrder.Length)
             return;
 
-        
-        var spawnType = int.Parse(waveSpawnOrder[spawnCounter].ToString());
+        if(!int.TryParse(waveSpawnOrder[spawnCounter].ToString(), out int spawnType)){
+            Spawning = false;
+            return;
+        }
+
         var group = prefabList.FirstOrDefault(p => p.id == spawnType);
 
         if (group.Equals(default(PrefabGroup)))
@@ -73,7 +76,8 @@ public class Spawner : MonoBehaviour
         if(waveIndex < waves.Length)
         {
             // Trim the wave of newlines and turn into a char array. This will be our IDs for which enemy to spawn
-            waveSpawnOrder = waves[waveIndex].TrimEnd(Environment.NewLine.ToCharArray()).ToCharArray();
+            var str = waves[waveIndex].Replace(Environment.NewLine, String.Empty);
+            waveSpawnOrder = str.ToCharArray();
             NumberToSpawn = waveSpawnOrder.Length; // This is how many to spawn
             spawnCounter = 0; // Reset our spawn counter
             return true;
