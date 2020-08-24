@@ -140,9 +140,12 @@ public class GameStateManager : MonoBehaviour
 
     void ToAttacking()
     {
-        Spawner.Spawning = true;
-        currState = State.Attacking;
-        gameStateChanged?.Invoke(currState);
+        if (!sellingCrops)
+        {
+            Spawner.Spawning = true;
+            currState = State.Attacking;
+            gameStateChanged?.Invoke(currState);
+        }
     }
 
     void ToDay()
