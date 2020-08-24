@@ -42,7 +42,8 @@ public class Spawner : MonoBehaviour
         if (!Spawning || spawnCounter >= waveSpawnOrder.Length)
             return;
 
-        var spawnType = Convert.ToInt32(waveSpawnOrder[spawnCounter].ToString());
+        
+        var spawnType = int.Parse(waveSpawnOrder[spawnCounter].ToString());
         var group = prefabList.FirstOrDefault(p => p.id == spawnType);
 
         if (group.Equals(default(PrefabGroup)))
