@@ -31,7 +31,7 @@ public class Arrow : MonoBehaviour
         transform.eulerAngles = new Vector3(0,0,angle);
 
 
-        if (Vector3.Distance(transform.position, targetPosition) < .2f)
+        if (Vector3.Distance(transform.position, targetPosition) < speed*Time.deltaTime*2)
         {
             gameObject.SetActive(false);
 
