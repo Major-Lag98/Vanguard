@@ -31,8 +31,10 @@ public class Arrow : MonoBehaviour
         transform.eulerAngles = new Vector3(0,0,angle);
 
 
-        if (Vector3.Distance(transform.position, targetPosition) < .1f)
+        if (Vector3.Distance(transform.position, targetPosition) < .2f)
         {
+            gameObject.SetActive(false);
+
             if (enemy != null)
             {
                 enemy.Damage(Damage);
